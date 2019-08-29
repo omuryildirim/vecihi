@@ -1,0 +1,24 @@
+Bottle is Augustiner, at location x: 9.50689030006 y: -4.98409285735
+Bottle is Augustiner, at location x: 0.197301381871 y: -9.38967588091
+Bottle is Paulaner, at location x: 7.61843817781 y: -8.90715433038
+Bottle is Paulaner, at location x: 1.14463498644 y: 3.67032121451
+Bottle is Erdinger, at location x: -1.56835441779 y: 8.25296974174
+Bottle is Augustiner, at location x: 4.34268779574 y: 6.38220047539
+Bottle is Augustiner, at location x: 8.14350089083 y: 6.71477193791
+Bottle is Paulaner, at location x: 6.64448624784 y: 9.50191074883
+Bottle is Augustiner, at location x: 7.81674236395 y: 11.4576880462
+Bottle is Beck's, at location x: 1.66908602694 y: -9.13858839293
+Detection coordinate x: -3.5, y: 10.0
+Beer is Erdinger. Total detected beer bottle count: 1
+Detection coordinate x: -2.43885108812, y: -6.33106528731
+Beer is Augustiner. Total detected beer bottle count: 2
+Detection coordinate x: 2.5, y: -10.0
+Beer is Beck's. Total detected beer bottle count: 3
+Detection coordinate x: 7.5, y: -10.0
+Beer is Paulaner. Total detected beer bottle count: 4
+Detection coordinate x: 7.55002638982, y: -6.67194830295
+Beer is Augustiner. Total detected beer bottle count: 5
+Detection coordinate x: 7.51601937465, y: 4.66133400923
+Beer is Augustiner. Total detected beer bottle count: 6
+Detection coordinate x: 7.51601937465, y: 4.66133400923
+Beer is Augustiner. Total detected beer bottle count: 7
