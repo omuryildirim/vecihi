@@ -4,17 +4,20 @@
 Contains utilities for working with maps and field shapes.
 """
 
-import itertools
+from math import cos, sin, sqrt, atan, degrees, radians
+
 import numpy as np
 from PIL import Image
-from shapely.geometry import Polygon, LineString
 from matplotlib.collections import LineCollection
-from math import cos, sin, sqrt, atan, degrees, radians
+from shapely.geometry import Polygon
+import matplotlib.pyplot as pyplot
+import pylab
+
 
 ##### Numpy-PIL Functions #####
 def image2array(im):
     if im.mode not in ("L", "F"):
-        raise ValueError, "can only convert single-layer images"
+        raise(ValueError, "can only convert single-layer images")
     if im.mode == "L":
         a = np.fromstring(im.tostring(), dtype=np.uint8)
     else:
@@ -28,7 +31,7 @@ def array2image(a):
     elif a.typecode() == np.float32:
         mode = "F"
     else:
-        raise ValueError, "unsupported image mode %s"%(a.typecode())
+        raise(ValueError, "unsupported image mode %s"%(a.typecode()))
     return Image.fromstring(mode, (a.shape[1], a.shape[0]), a.tostring())
 
 
@@ -132,15 +135,13 @@ def zoom_extents(ax, polygons, buff=1.0):
     ax.set_aspect(1)
 
 def make_axis():
-    from pylab import plot, figure
+    from pylab import figure
     return figure(1, dpi=90).add_subplot(111), True
 
 def plot_lines(lines, ax=None, color='#6699cc', alpha=1.0):
-    import matplotlib.pyplot as pyplot
     show = False
     if ax == None:
         ax, show = make_axis()
-    x, y = line.xy
     t = np.linspace(0, 10, len(x))
     lc = LineCollection(lines, cmap=pyplot.get_cmap('hot'),
                                norm=pyplot.Normalize(0, 20))
@@ -148,17 +149,16 @@ def plot_lines(lines, ax=None, color='#6699cc', alpha=1.0):
     lc.set_array(t)
     lc.set_linewidth(2)
     if show:
-        import pylab; pylab.show()
+        pylab.show()
 
 def plot_line(line, ax=None, color='#6699cc', alpha=1.0):
-    import matplotlib.pyplot as pyplot
     show = False
     if ax == None:
         ax, show = make_axis()
     x, y = line.xy
     ax.plot(x, y, color=color, alpha=1, linewidth=0.5)
     if show:
-        import pylab; pylab.show()
+        pylab.show()
 
 def plot_coords(coords, ax=None, color='#999999', alpha=1.0):
     show = False
@@ -167,7 +167,7 @@ def plot_coords(coords, ax=None, color='#999999', alpha=1.0):
     x, y = coords.xy
     ax.plot(x, y, 'o', color=color, alpha=alpha, zorder=1)
     if show:
-        import pylab; pylab.show()
+        pylab.show()
 
 def plot_polygon(polygon, ax=None, color='#999999', alpha=1.0):
     show = False
@@ -179,7 +179,7 @@ def plot_polygon(polygon, ax=None, color='#999999', alpha=1.0):
     ax.set_ylim(min(y)-1,max(y)+1)
     ax.set_aspect(1)
     if show:
-        import pylab; pylab.show()
+        pylab.show()
 
 
 ##### Tests #####
@@ -189,8 +189,8 @@ if __name__ == '__main__':
     polygon_points = np.array(polygon.exterior)
     
     rt = rotation_tf_from_longest_edge(polygon)
-    print rt.angle
-    print rt.w
+    print(rt.angle)
+    print(rt.w)
     
     tf_points = rotate_to(polygon_points, rt)
     tf_polygon = ndarray2polygon(tf_points)
@@ -201,5 +201,4 @@ if __name__ == '__main__':
     ax.axvline(x=0, color='black')
     ax.axhline(y=0, color='black')
     zoom_extents(ax, [polygon,tf_polygon])
-    import pylab; pylab.show()
-    
+    pylab.show()

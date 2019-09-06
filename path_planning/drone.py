@@ -108,6 +108,14 @@ class Drone(object):
             self._target_cell = self._path[self._target_cell_index]
             self._target_point = self._moveData[self._target_cell][self._target_move_index]
 
+    def init_emergency_restart(self):
+        self._battery_consumption = 0.
+        self._battery_percentage = 0.
+        self.emergency_land = False
+        self.emergency_base_return = False
+        self.working = True
+
+
     @property
     def x(self):
         """X coordinate."""
@@ -368,11 +376,35 @@ class Drone(object):
             angle = self.calculate_angle_between_target()
             if self.turn(angle):
                 obstacle_ahead = False
+                direction = "y"
                 for sensor in self.sensors:
                     if sensor.has_collided(max_distance=0.1):
-                        obstacle_ahead = True
-                if obstacle_ahead:
-                    self.move_towards_y(self._target_point[1])
+                        collided = {"left": 0, "right": 0}
+                        for index in range(0, len(sensor.distances)):
+                            if index < 10 and sensor.distances[index] < 0.1:
+                                collided["left"] += 1
+                            elif index > 9 and sensor.distances[index] < 0.1:
+                                collided["right"] += 1
+
+                        angle_is_0_90 = (angle >= 0 and angle < 1.5707) or (angle <= 0 and angle > -4.7123)
+                        angle_is_180_270 = (angle >= 3.1415 and angle < 4.7124) or (angle >= -3.1415 and angle < -1.5707)
+                        angle_is_90_or_270 = (angle > 1.5533  and angle < 1.5882) or (angle > -4.7298 and angle < -4.6949) or (angle < 4.7298 and angle > 4.6949) or (angle < -1.5533  and angle > -1.5882)
+
+                        if angle_is_90_or_270:
+                            direction = "x"
+                        elif angle_is_0_90 and angle_is_180_270:
+                            if collided["left"] - collided["right"] > 0:
+                                direction = "x"
+                        elif collided["right"] - collided["left"] > 0:
+                                direction = "x"
+
+                        if abs(self.y - self._target_point[1]) + abs(self.x - self._target_point[0]) > 5:
+                            obstacle_ahead = True
+                if obstacle_ahead and self._target_cell != 6:
+                    if direction == "y":
+                        self.move_towards_y(self._target_point[1])
+                    else:
+                        self.move_towards_x(self._target_point[0])
                 elif self.move_linear():
                     self.cell_change = False
 
@@ -480,6 +512,28 @@ class Drone(object):
                 state_updator[1] = self._unit_shift
             else:
                 state_updator[1] = -self._unit_shift
+
+            self._update_state(self._state + state_updator)
+            return False
+        return True
+
+    def move_towards_x(self, target_x):
+        """
+        Only move towards x coordinate. Move on x plane without relation to angle.
+
+        Args:
+            :param target_x: Target point x coordinate.
+        """
+        if self.x != target_x:
+
+            on_right = target_x > self.x
+            state_updator = self.create_updator()
+            if np.abs(target_x - self.x) < self._unit_shift:
+                state_updator[0] = target_x - self.x
+            elif on_right:
+                state_updator[0] = self._unit_shift
+            else:
+                state_updator[0] = -self._unit_shift
 
             self._update_state(self._state + state_updator)
             return False

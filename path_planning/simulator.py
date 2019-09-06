@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import random
 from copy import deepcopy
 
 import codecs
@@ -53,6 +54,11 @@ class Simulator(object):
         self._external_target = False
 
         self._found_bottles = []
+
+        self._total_run_count = 0
+        self._text_file = None
+        self.total_simulation_count = 15
+        self._finished_simulation_count = 0
 
         self._initialize()
 
@@ -197,9 +203,11 @@ class Simulator(object):
             display: Displays the simulator or not.
         """
 
+        sim._text_file = open("./prints/" + args.input_file + "/" + str(self._finished_simulation_count) + "/" + "monitoring_summary" + str(self._total_run_count) + ".txt", "w")
+
         for bottle in self._bottles:
-            text_file.write("Bottle is {0}, at location x: {1} y: {2}".format(bottle[2], bottle[0].x, bottle[0].y))
-            text_file.write("\n")
+            self._text_file.write("Bottle is {0}, at location x: {1} y: {2}".format(bottle[2], bottle[0].x, bottle[0].y))
+            self._text_file.write("\n")
 
         if display:
             widget = QtGui.QWidget()
@@ -257,13 +265,13 @@ class Simulator(object):
                         print("Beer is {0}. Total detected beer bottle count: {1}".format(bottle[2],
                                                                                           len(self._found_bottles)))
 
-                        text_file.write("Beer is {0}. Total detected beer bottle count: {1}".format(bottle[2],
+                        self._text_file.write("Beer is {0}. Total detected beer bottle count: {1}".format(bottle[2],
                                                                                           len(self._found_bottles)))
-                        text_file.write("\n")
+                        self._text_file.write("\n")
                     elif investgation_completed:
                         print("Target couldn't defined. Object is not a bottle.")
-                        text_file.write("Target couldn't defined. Object is not a bottle.")
-                        text_file.write("\n")
+                        self._text_file.write("Target couldn't defined. Object is not a bottle.")
+                        self._text_file.write("\n")
 
                         self._bottle_found = False
                         self.bottle_locations.pop(self._detected_bottle_index)
@@ -314,8 +322,8 @@ class Simulator(object):
                             robot_data.re_add_last_target()
                             print("Possible bottle detected. Further investigation started.")
                             print("Detection coordinate x: {0}, y: {1}".format(robot_data._state[0], robot_data._state[1]))
-                            text_file.write("Detection coordinate x: {0}, y: {1}".format(robot_data._state[0], robot_data._state[1]))
-                            text_file.write("\n")
+                            self._text_file.write("Detection coordinate x: {0}, y: {1}".format(robot_data._state[0], robot_data._state[1]))
+                            self._text_file.write("\n")
 
                         if robot_data.at_target(threshold=0.1):
                             self._num_targets += 1
@@ -324,32 +332,83 @@ class Simulator(object):
                             if new_target is not None:
                                 self.add_target(new_target)
         else:
-            text_file.write("Total movement: {0} meter".format(self._robots[0][0].total_motion_distance))
-            text_file.write("\n")
-            text_file.write("Battery percentage: {0} %".format(self._robots[0][0]._battery_percentage))
-            text_file.write("\n")
-            text_file.write("Consumption: {0} mAh".format(self._robots[0][0]._battery_consumption))
-            text_file.write("\n")
-            text_file.write("Total time: {0} tick".format(self._tick_count))
-            text_file.write("\n")
+            self._text_file.write("Total movement: {0} meter".format(self._robots[0][0].total_motion_distance))
+            self._text_file.write("\n")
+            self._text_file.write("Battery percentage: {0} %".format(self._robots[0][0]._battery_percentage))
+            self._text_file.write("\n")
+            self._text_file.write("Consumption: {0} mAh".format(self._robots[0][0]._battery_consumption))
+            self._text_file.write("\n")
+            self._text_file.write("Total time: {0} tick".format(self._tick_count))
+            self._text_file.write("\n")
 
             if self._robots[0][0].emergency_land or self._robots[0][0].emergency_base_return:
                 # store last location of robot
-                new_text_file = open("./prints/" + args.input_file + "/emergency.txt", "w")
+                new_text_file = open("./prints/" + args.input_file + "/" + str(self._finished_simulation_count) + "/" + "emergency_" + str(self._total_run_count) + ".txt", "w")
                 new_text_file.write(str(self._robots[0][0]._target_cell_index))
                 new_text_file.write("\n")
                 new_text_file.write(str(self._robots[0][0]._target_move_index))
                 new_text_file.close()
 
+                self._text_file.write("\n")
+                self._text_file.write("\n")
+                self._text_file.write("emergency cell and point")
+                self._text_file.write(str(self._robots[0][0]._target_cell_index))
+                self._text_file.write("\n")
+                self._text_file.write(str(self._robots[0][0]._target_move_index) + " - " +
+                                str(len(self._robots[0][0]._moveData[self._robots[0][0]._target_cell])))
+
                 # store bottle names and locations
-                new_text_file = open("./prints/" + args.input_file + "/bottle_locations.txt", "w")
+                new_text_file = open("./prints/" + args.input_file + "/" + str(self._finished_simulation_count) + "/" + "bottle_locations.txt", "w")
                 for bottle in self._bottles:
                     new_text_file.write("{0},{1},{2}".format(bottle[2], bottle[0].x, bottle[0].y))
                     new_text_file.write("\n")
                 new_text_file.close()
+                self._total_run_count += 1
+                self._found_bottles = []
+                self.set_safe_position(self._robots[0][0])
+                self._robots[0][0].init_emergency_restart()
+                self._robots[0][0].altitude = 2.
+                self._text_file.close()
+                self._text_file = open("./prints/" + args.input_file + "/" + str(self._finished_simulation_count) + "/" + "monitoring_summary" + str(self._total_run_count) + ".txt", "w")
+                return
 
-            text_file.close()
+            self._text_file.close()
             self._app.quit()
+
+            # if self.total_simulation_count == self._finished_simulation_count:
+            #     self._app.quit()
+            # else:
+            #     self.set_safe_position(self._robots[0][0])
+            #     self._robots[0][0].init_emergency_restart()
+            #     self._tick_count = 0
+            #     self._obstacles = []
+            #     self._bottles = []
+            #     self.bottle_locations = []
+            #
+            #     # performance tracker
+            #     self._num_targets = 0
+            #
+            #     self._coverage_frame = None
+            #     self._bottle_found = False
+            #     self._detected_bottle_index = None
+            #     self._bottle_found_location = None
+            #     self._external_target = False
+            #
+            #     self._found_bottles = []
+            #
+            #     self._total_run_count = 0
+            #
+            #     self._robots[0][0]._target_cell_index = 0
+            #     self._robots[0][0]._target_cell = 6
+            #     self._robots[0][0]._target_move_index = 0
+            #     self._robots[0][0].init_move_data()
+            #     self._robots[0][0].set_target(self._robots[0][0]._target_point)
+            #
+            #     for (obstacle, beer_brand) in world.generate_bottles(count=args.bottle_count):
+            #         self.add_obstacle(obstacle, bottle=True, brand=beer_brand)
+            #
+            #     self._finished_simulation_count += 1
+            #     self._text_file = open("./prints/" + args.input_file + "/" + str(self._finished_simulation_count) + "/" + "monitoring_summary" + str(self._total_run_count) + ".txt", "w")
 
     @staticmethod
     def generate_position():
@@ -358,7 +417,7 @@ class Simulator(object):
     @staticmethod
     def set_safe_position(robot_data):
         while True:
-            robot_data.x, robot_data.y = -12.5, -12.5
+            robot_data.x, robot_data.y = 22.5, -12.5
             robot_data.theta = np.random.uniform(0, 2 * np.pi)
             if min(robot_data.sensors[0].distances) >= 0.30:
                 return
@@ -382,6 +441,9 @@ def get_args():
                         help="number of bottles in area")
     parser.add_argument("--show-covered-area", default=False,
                         help="display covered area on map")
+    parser.add_argument("--boust", action="store_true", default=False,
+                        help="boust decomposıtıon",
+                        dest="boust")
     parser.add_argument("--no-display", action="store_false", default=True,
                         help="whether to display the simulator or not",
                         dest="display")
@@ -392,7 +454,7 @@ def get_args():
 if __name__ == "__main__":
     args = get_args()
 
-    decomposed_map = VerticalCellDecomposition().process_input_file(args.input_file)
+    decomposed_map = VerticalCellDecomposition().process_input_file(args.input_file, args.boust)
 
     world = World(decomposed_map["boundaries"]["horizontal"], decomposed_map["boundaries"]["vertical"],
                   cells=decomposed_map["cell_points"])
@@ -466,5 +528,4 @@ if __name__ == "__main__":
     sim.set_safe_position(robot)
     sim.add_robot(robot)
 
-    text_file = open("./prints/" + args.input_file + "/monitoring_summary.txt", "w")
     sim.run(args.display)

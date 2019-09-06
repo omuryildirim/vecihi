@@ -6,8 +6,8 @@ from collections import OrderedDict
 
 import matplotlib.pyplot as plt
 
-from helpers.euler_tour import *
 from helpers.decomposition import *
+from helpers.euler_tour import *
 from helpers.geometry import *
 from helpers.graph import *
 from helpers.maptools import *
@@ -131,7 +131,7 @@ class VerticalCellDecomposition(object):
 
         if len(object_indexs) == 1:
             check_list = [vertice, other_vertice]
-            selected_object_index = object_indexs.keys()[0]
+            selected_object_index = list(object_indexs.keys())[0]
             if [vertice.x, vertice.y, selected_object_index] in self._obstacles[selected_object_index]:
                 check_list.pop(0)
             if [other_vertice.x, other_vertice.y, selected_object_index] in self._obstacles[selected_object_index]:
@@ -165,7 +165,7 @@ class VerticalCellDecomposition(object):
                 if other_vertice.x > vertice.x:
                     start = vertice
 
-                for index in range(1, diff + 1):
+                for index in range(1, int(diff + 1)):
                     if slope > 5:
                         point_floor = Point([np.floor(start.x + index / slope), start.y + index])
                         point_ceil = Point([np.ceil(start.x + index / slope), start.y + index])
@@ -390,7 +390,7 @@ class VerticalCellDecomposition(object):
             y = [j.y for j in i]
             plt.plot(x, y)
             # plt.text(np.mean(x) - 5, np.mean(y) - 5, index, fontsize=8, color="#ffffff")
-            plt.text(np.mean(x) - 20, np.mean(y), "Cell " + str(index), fontsize=12)
+            plt.text(np.mean(x) - 7, np.mean(y)-5, str(index), fontsize=11)
 
     def calculate_graph(self, plt):
         """
@@ -410,7 +410,7 @@ class VerticalCellDecomposition(object):
             for index2 in range(len(self._quad_cells)):
                 if (index1 != index2):
                     if self._quad_cells[index1][1].x == self._quad_cells[index2][0].x:
-                        for y_left in range(self._quad_cells[index1][1].y, self._quad_cells[index1][2].y):
+                        for y_left in range(int(self._quad_cells[index1][1].y), int(self._quad_cells[index1][2].y)):
                             if y_left in range(self._quad_cells[index2][0].y, self._quad_cells[index2][3].y):
                                 same_boundary.append(index2)
                                 break
@@ -478,9 +478,9 @@ class VerticalCellDecomposition(object):
         path = bfs(graph, len(graph_vertices) - 2, len(graph_vertices) - 1)
 
         if (path is None):
-            print "No path found. Sorry"
+            print("No path found. Sorry")
         else:
-            print "Path found."
+            print("Path found.")
 
         # plt.plot(i.x,i.y, marker="x")
 
@@ -664,7 +664,7 @@ class VerticalCellDecomposition(object):
                     sorted(lines_and_obstacles[current_x][obstacle_index].items(), key=lambda x: x[1]["point"].y))
         return lines_and_obstacles
 
-    def process_input_file(self, file_name):
+    def process_input_file(self, file_name, boust):
         """
         Get map information from given file and calculate vertical cell decomposition for given map.
 
@@ -757,6 +757,37 @@ class VerticalCellDecomposition(object):
 
         cells = self.find_cells(lines_and_obstacles)
 
+        cells = self.sort_cells(cells)
+        if boust:
+            cells[1] = [
+                cells[1][0],
+                cells[2][0],
+                cells[3][0],
+                cells[4][0],
+                cells[5][0],
+                cells[5][1],
+                cells[5][2],
+                cells[5][3],
+                cells[4][3],
+                cells[3][3],
+                cells[2][3],
+                cells[1][2],
+                cells[1][3],
+            ]
+            cells.pop(2)
+            cells.pop(2)
+            cells.pop(2)
+            cells.pop(2)
+            cells[6] = [
+                cells[6][0],
+                cells[7][1],
+                cells[7][2],
+                cells[7][3],
+                cells[6][2],
+                cells[6][3]
+            ]
+            cells.pop(7)
+
         # -------------------------------------------------------
         # Merge overlapping Polygons
         self._quad_cells = cells
@@ -845,12 +876,15 @@ class VerticalCellDecomposition(object):
         origin = rotate_to(np.array([(1, 1)]), rt).tolist()
         result = None
 
-        self._quad_cells = self.sort_cells(self._quad_cells)
         # create decomposed lines from polygons and draw lines to figure
         for idx, i in enumerate(self._quad_cells):
 
             if idx < len(self._quad_cells) - 2:
-                if i[0].x < self._quad_cells[idx + 1][0].x:
+                if boust and idx == 1:
+                    origin = [i[12].x, i[12].y]
+                elif boust and idx == 6:
+                    origin = [i[5].x, i[5].y]
+                elif i[0].x < self._quad_cells[idx + 1][0].x:
                     origin = [self._quad_cells[idx][0].x, self._quad_cells[idx][0].y]
                     if result is not None:
                         if np.abs(result[-1][1] - self._quad_cells[idx][0].y) > \
@@ -892,33 +926,33 @@ class VerticalCellDecomposition(object):
         if len(tour) < len(self.path_by_cells):
             tour = [i*2 for i in self.path_by_cells]
 
-        for i in range(len(tour) - 1):
-            first = tour[i]
-            second = tour[i + 1]
-            if not second in visited_cells:
-                if empty_connection:
-                    first = last_visited
-                    empty_connection = False
-
-                print("from cell " + str(i) + " to cell " + str(
-                    i+1))
-                text_file.write("from cell: {0} - to cell: {1}".format(i,
-                                                                       i+1))
-                text_file.write("\n")
-
-                temp_x = [graph_vertices[first].x, graph_vertices[second].x]
-                temp_y = [graph_vertices[first].y, graph_vertices[second].y]
-                plt.plot(temp_x, temp_y, "--")
-                visited_cells[second] = True
-                last_visited = second
-            else:
-                empty_connection = True
+        # for i in range(len(tour) - 1):
+        #     first = tour[i]
+        #     second = tour[i + 1]
+        #     if not second in visited_cells:
+        #         if empty_connection:
+        #             first = last_visited
+        #             empty_connection = False
+        #
+        #         print("from cell " + str(i) + " to cell " + str(
+        #             i+1))
+        #         text_file.write("from cell: {0} - to cell: {1}".format(i,
+        #                                                                i+1))
+        #         text_file.write("\n")
+        #
+        #         temp_x = [graph_vertices[first].x, graph_vertices[second].x]
+        #         temp_y = [graph_vertices[first].y, graph_vertices[second].y]
+        #         plt.plot(temp_x, temp_y, "--")
+        #         visited_cells[second] = True
+        #         last_visited = second
+        #     else:
+        #         empty_connection = True
 
         plt.savefig("./prints/" + self._input_file + "/map_with_euler_tour.png", dpi=self.dpi)
 
         text_file.close()
 
-        print "Output written to file.. Drawing the result"
+        print("Output written to file.. Drawing the result")
 
         # plt.show()
 
@@ -935,4 +969,4 @@ class VerticalCellDecomposition(object):
 
 
 if __name__ == "__main__":
-    VerticalCellDecomposition().process_input_file("input_file_2")
+    VerticalCellDecomposition().process_input_file("input_file_6", False)

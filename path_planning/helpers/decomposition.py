@@ -6,6 +6,7 @@ This module contains code to plan coverage paths
 
 import math
 from copy import deepcopy
+from filecmp import cmp
 from logging import error
 
 from shapely.geometry import GeometryCollection
@@ -71,7 +72,7 @@ def sort_to(point, list_of_points):
     :return:
     """
     copy_list = deepcopy(list_of_points)
-    copy_list.sort(lambda x, y: cmp(x.distance(Point(*point)), y.distance(Point(*point))))
+    copy_list.sort(key=lambda x: x.distance(Point(*point)))
     return copy_list
 
 
@@ -83,7 +84,8 @@ def get_furthest(line_point_list, origin):
     :type origin: Origin
     """
     orig_point = Point(*origin)
-    return sorted(line_point_list, lambda x, y: cmp(orig_point.distance(Point(*x)), orig_point.distance(Point(*y))))
+    line_point_list = sorted(line_point_list, key=lambda x: orig_point.distance(Point(*x)))
+    return line_point_list
 
 
 def order_points(lines, initial_origin):
