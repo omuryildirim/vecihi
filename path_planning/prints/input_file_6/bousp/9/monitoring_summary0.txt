@@ -1,0 +1,22 @@
+Bottle is Paulaner, at location x: -168.091239862 y: -289.895717784
+Bottle is Beck's, at location x: 45.3065804517 y: -314.645357118
+Bottle is Augustiner, at location x: -139.322080586 y: 269.178480818
+Bottle is Augustiner, at location x: -165.868080728 y: -312.424946494
+Bottle is Augustiner, at location x: -149.816333341 y: 256.696522914
+Bottle is Beck's, at location x: 18.847143285 y: -188.540734955
+Bottle is Beck's, at location x: 172.699949869 y: 254.412579359
+Bottle is Augustiner, at location x: -261.611633595 y: 324.66764721
+Bottle is Augustiner, at location x: -54.0452655613 y: -92.1630856628
+Bottle is Beck's, at location x: -31.5865037478 y: 280.662728678
+Detection coordinate x: -170.975264536, y: -286.166503968
+Beer is Paulaner. Total detected beer bottle count: 1
+Detection coordinate x: -56.9185415111, y: -94.5001310763
+Beer is Augustiner. Total detected beer bottle count: 2
+Total movement: 11639.37821 meter
+Battery percentage: 31.9851851852 %
+Consumption: 3060.66666666 mAh
+Total time: 41320 tick
+
+
+emergency cell and point2
+15 - 34

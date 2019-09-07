@@ -1,14 +1,14 @@
-Detection coordinate x: 158.000937369, y: 142.499891735
-Beer is Augustiner. Total detected beer bottle count: 1
-Detection coordinate x: 107.677024441, y: 41.1666520371
-Beer is Beck's. Total detected beer bottle count: 2
-Detection coordinate x: 133.028099303, y: 256.833918071
+Detection coordinate x: 102.946315142, y: -261.833857018
+Beer is Beck's. Total detected beer bottle count: 1
+Detection coordinate x: 102.822033278, y: 100.500219444
+Beer is Erdinger. Total detected beer bottle count: 2
+Detection coordinate x: 97.906778703, y: 122.499660859
 Beer is Augustiner. Total detected beer bottle count: 3
-Total movement: 8454.00905226 meter
+Total movement: 4417.96355169 meter
 Battery percentage: 31.9868312758 %
 Consumption: 3060.59259259 mAh
 Total time: 41319 tick
 
 
-emergency cell and point7
-39 - 90
+emergency cell and point10
+0 - 30

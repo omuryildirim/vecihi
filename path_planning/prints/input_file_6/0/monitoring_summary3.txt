@@ -1,10 +1,16 @@
-Bottle is Paulaner, at location x: 120.124421723 y: 89.7491776734
-Bottle is Augustiner, at location x: 245.507937625 y: 257.039970723
-Bottle is Paulaner, at location x: 78.4876347389 y: 253.677922671
-Bottle is Paulaner, at location x: -235.275746229 y: 315.908851406
-Detection coordinate x: -235.12858216, y: 313.330912073
+Detection coordinate x: 73.1293187397, y: 298.323153256
 Beer is Paulaner. Total detected beer bottle count: 1
-Total movement: 4291.80870179 meter
-Battery percentage: 66.7670781893 %
-Consumption: 1495.48148148 mAh
-Total time: 20190 tick
+Detection coordinate x: 73.0502807833, y: 321.656352725
+Beer is Erdinger. Total detected beer bottle count: 2
+Detection coordinate x: 154.0, y: 249.5
+Beer is Paulaner. Total detected beer bottle count: 3
+Detection coordinate x: -166.053291677, y: 320.249089442
+Beer is Beck's. Total detected beer bottle count: 4
+Total movement: 7951.23131106 meter
+Battery percentage: 31.9868312758 %
+Consumption: 3060.59259259 mAh
+Total time: 41319 tick
+
+
+emergency cell and point13
+28 - 32

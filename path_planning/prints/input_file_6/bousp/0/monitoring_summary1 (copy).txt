@@ -1,0 +1,14 @@
+Detection coordinate x: 28.0556381387, y: 224.166597896
+Beer is Franziskaner. Total detected beer bottle count: 1
+Detection coordinate x: 33.2910681908, y: 251.166677134
+Beer is Franziskaner. Total detected beer bottle count: 2
+Detection coordinate x: 58.2988278068, y: -266.833341879
+Beer is Radeberger. Total detected beer bottle count: 3
+Total movement: 23542.984802 meter
+Battery percentage: 32.0345679013 %
+Consumption: 3058.44444444 mAh
+Total time: 82610 tick
+
+
+emergency cell and point4
+4 - 36

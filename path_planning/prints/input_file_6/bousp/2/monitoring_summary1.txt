@@ -1,0 +1,10 @@
+Detection coordinate x: 147.826465796, y: -290.166367418
+Beer is Krombacher. Total detected beer bottle count: 1
+Total movement: 12268.3036462 meter
+Battery percentage: 32.0131687243 %
+Consumption: 3059.40740741 mAh
+Total time: 41303 tick
+
+
+emergency cell and point4
+7 - 36

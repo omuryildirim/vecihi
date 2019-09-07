@@ -1,12 +1,10 @@
-Detection coordinate x: 18.0050989234, y: -314.833291654
-Target couldn't defined. Object is not a bottle.
-Detection coordinate x: 63.2171041912, y: 101.833362117
-Beer is Krombacher. Total detected beer bottle count: 1
-Total movement: 12109.2711717 meter
+Detection coordinate x: -2.65839110976, y: -162.065481093
+Beer is Paulaner. Total detected beer bottle count: 1
+Total movement: 12230.7588856 meter
 Battery percentage: 31.9868312758 %
 Consumption: 3060.59259259 mAh
 Total time: 41319 tick
 
 
-emergency cell and point4
+emergency cell and point8
 5 - 36

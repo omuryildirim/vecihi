@@ -1,9 +1,8 @@
-Target couldn't defined. Object is not a bottle.
-Detection coordinate x: -61.035975958, y: 326.9052417
-Beer is Paulaner. Total detected beer bottle count: 1
-Detection coordinate x: -156.010052147, y: 239.833873908
-Beer is Beck's. Total detected beer bottle count: 2
-Total movement: 25674.2341022 meter
-Battery percentage: 65.1341563786 %
-Consumption: 1568.96296296 mAh
-Total time: 103817 tick
+Total movement: 4614.98291862 meter
+Battery percentage: 31.9868312758 %
+Consumption: 3060.59259259 mAh
+Total time: 41319 tick
+
+
+emergency cell and point10
+0 - 30

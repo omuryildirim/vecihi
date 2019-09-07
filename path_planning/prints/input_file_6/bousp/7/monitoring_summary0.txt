@@ -1,0 +1,26 @@
+Bottle is Paulaner, at location x: 246.04060743 y: 253.233495578
+Bottle is Augustiner, at location x: 162.963660475 y: 256.69844191
+Bottle is Paulaner, at location x: -14.6987625171 y: -314.024286918
+Bottle is Bitburger, at location x: 20.6939354769 y: 270.077022501
+Bottle is Augustiner, at location x: -175.345221645 y: -89.8800637966
+Bottle is Augustiner, at location x: 106.287607485 y: 247.790943003
+Bottle is Augustiner, at location x: -286.136591647 y: 335.949910017
+Bottle is Franziskaner, at location x: -184.252832966 y: -255.539543948
+Bottle is Augustiner, at location x: -51.7219755873 y: -295.75915894
+Bottle is Augustiner, at location x: -46.708082008 y: -218.059294022
+Detection coordinate x: -185.743440197, y: -257.500037305
+Beer is Franziskaner. Total detected beer bottle count: 1
+Detection coordinate x: -175.904761792, y: -91.5001156925
+Beer is Augustiner. Total detected beer bottle count: 2
+Detection coordinate x: -51.9539428682, y: -292.21550335
+Beer is Augustiner. Total detected beer bottle count: 3
+Detection coordinate x: -46.7879697974, y: -220.166729909
+Beer is Augustiner. Total detected beer bottle count: 4
+Total movement: 11170.1418574 meter
+Battery percentage: 31.9851851852 %
+Consumption: 3060.66666666 mAh
+Total time: 41320 tick
+
+
+emergency cell and point2
+11 - 34

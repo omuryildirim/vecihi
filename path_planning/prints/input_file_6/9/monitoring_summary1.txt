@@ -1,10 +1,8 @@
-Detection coordinate x: 18.0041177589, y: -189.499958324
-Beer is Beck's. Total detected beer bottle count: 1
-Total movement: 12329.9099233 meter
+Total movement: 12490.6198567 meter
 Battery percentage: 31.9868312758 %
 Consumption: 3060.59259259 mAh
 Total time: 41319 tick
 
 
-emergency cell and point4
-9 - 36
+emergency cell and point8
+0 - 36

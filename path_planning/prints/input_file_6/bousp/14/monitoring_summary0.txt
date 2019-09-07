@@ -1,0 +1,28 @@
+Bottle is Paulaner, at location x: -42.8043597719 y: -117.200878811
+Bottle is Warsteiner, at location x: 122.128914205 y: 70.0191511242
+Bottle is Paulaner, at location x: -67.8735306214 y: -57.297230242
+Bottle is Augustiner, at location x: -168.421479704 y: -297.976587017
+Bottle is Paulaner, at location x: -36.9652011308 y: -111.446621555
+Bottle is Augustiner, at location x: 56.7117945482 y: -135.354159343
+Bottle is Augustiner, at location x: 149.556304295 y: -272.310927871
+Bottle is Radeberger, at location x: -162.228519111 y: 237.378810233
+Bottle is Augustiner, at location x: -171.951410738 y: -279.420565239
+Bottle is Beck's, at location x: -199.951518035 y: -211.044225528
+Detection coordinate x: -200.875283348, y: -208.166565298
+Beer is Beck's. Total detected beer bottle count: 1
+Detection coordinate x: -170.965423146, y: -276.833175824
+Beer is Augustiner. Total detected beer bottle count: 2
+Detection coordinate x: -170.983700013, y: -294.166499521
+Beer is Augustiner. Total detected beer bottle count: 3
+Detection coordinate x: -66.9674853002, y: -59.7346720114
+Beer is Paulaner. Total detected beer bottle count: 4
+Detection coordinate x: -41.7683103866, y: -114.137168412
+Target couldn't defined. Object is not a bottle.
+Total movement: 11076.302961 meter
+Battery percentage: 31.9851851852 %
+Consumption: 3060.66666666 mAh
+Total time: 41320 tick
+
+
+emergency cell and point2
+11 - 34

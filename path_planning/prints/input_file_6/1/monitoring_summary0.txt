@@ -1,22 +1,26 @@
-Bottle is Augustiner, at location x: -63.8261543414 y: 267.559134729
-Bottle is Paulaner, at location x: -63.1550337865 y: 327.809053583
-Bottle is Beck's, at location x: -155.668180989 y: 237.313561202
-Bottle is Paulaner, at location x: -184.237909924 y: -75.4620136843
-Bottle is Augustiner, at location x: 81.029260765 y: 249.326556917
-Bottle is Beck's, at location x: 116.727625479 y: -305.837686587
-Bottle is Beck's, at location x: -178.136142709 y: -310.643595388
-Bottle is Paulaner, at location x: 148.961368379 y: 249.760063465
-Bottle is Krombacher, at location x: 168.632194283 y: 253.25352713
-Bottle is Franziskaner, at location x: 98.6918714856 y: -316.4162508
-Detection coordinate x: -185.918043289, y: -77.8334554794
+Bottle is Paulaner, at location x: 156.45432012 y: 252.528457592
+Bottle is Beck's, at location x: 96.454608243 y: 142.951219361
+Bottle is Paulaner, at location x: 7.17147990166 y: -35.3481765693
+Bottle is Paulaner, at location x: -201.480571814 y: -318.075919788
+Bottle is Beck's, at location x: -70.2298726438 y: -94.4042794289
+Bottle is Franziskaner, at location x: -238.554751879 y: 305.483123701
+Bottle is Warsteiner, at location x: -130.438346404 y: -135.296774374
+Bottle is Beck's, at location x: -169.046727731 y: -178.31861111
+Bottle is Franziskaner, at location x: 89.0977685949 y: -284.30866975
+Bottle is Augustiner, at location x: 31.2004720891 y: 230.913733648
+Detection coordinate x: -200.97926775, y: -315.166514771
 Beer is Paulaner. Total detected beer bottle count: 1
-Detection coordinate x: -180.971493215, y: -307.166518549
+Detection coordinate x: -170.858222291, y: -175.166565675
 Beer is Beck's. Total detected beer bottle count: 2
-Total movement: 11781.7026592 meter
+Detection coordinate x: -129.872456789, y: -137.194953268
+Beer is Warsteiner. Total detected beer bottle count: 3
+Detection coordinate x: -72.7539919479, y: -91.5896192306
+Beer is Beck's. Total detected beer bottle count: 4
+Total movement: 11515.9557461 meter
 Battery percentage: 31.9851851852 %
 Consumption: 3060.66666666 mAh
 Total time: 41320 tick
 
 
-emergency cell and point2
+emergency cell and point6
 15 - 34

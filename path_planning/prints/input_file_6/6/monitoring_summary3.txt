@@ -1,4 +1,6 @@
-Total movement: 4179.23535311 meter
-Battery percentage: 68.3851851852 %
-Consumption: 1422.66666667 mAh
-Total time: 19207 tick
+Detection coordinate x: -156.162778941, y: 287.454622773
+Beer is Paulaner. Total detected beer bottle count: 1
+Total movement: 3666.52124007 meter
+Battery percentage: 71.5440329218 %
+Consumption: 1280.51851852 mAh
+Total time: 17288 tick

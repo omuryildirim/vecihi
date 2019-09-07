@@ -1,0 +1,6 @@
+Detection coordinate x: -160.302193057, y: 236.309557087
+Beer is Radeberger. Total detected beer bottle count: 1
+Total movement: 4370.54036679 meter
+Battery percentage: 66.1283950617 %
+Consumption: 1524.22222222 mAh
+Total time: 20578 tick
