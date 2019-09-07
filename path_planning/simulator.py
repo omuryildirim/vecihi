@@ -195,15 +195,16 @@ class Simulator(object):
         self.locator.SetDataSet(d.getPolyData())
         self.locator.BuildLocator()
 
-    def run(self, display):
+    def run(self, display, simulation_number):
         """
         Launches and displays the simulator.
 
         Args:
             display: Displays the simulator or not.
+            :param simulation_number: Current simulation number.
         """
-
-        sim._text_file = open("./prints/" + args.input_file + "/" + str(self._finished_simulation_count) + "/" + "monitoring_summary" + str(self._total_run_count) + ".txt", "w")
+        self._finished_simulation_count = simulation_number
+        self._text_file = open("./prints/" + args.input_file + "/" + str(self._finished_simulation_count) + "/" + "monitoring_summary" + str(self._total_run_count) + ".txt", "w")
 
         for bottle in self._bottles:
             self._text_file.write("Bottle is {0}, at location x: {1} y: {2}".format(bottle[2], bottle[0].x, bottle[0].y))
@@ -365,6 +366,7 @@ class Simulator(object):
                 new_text_file.close()
                 self._total_run_count += 1
                 self._found_bottles = []
+                self._tick_count = 0
                 self.set_safe_position(self._robots[0][0])
                 self._robots[0][0].init_emergency_restart()
                 self._robots[0][0].altitude = 2.
@@ -438,6 +440,8 @@ def get_args():
     parser.add_argument("--exploration-radius", default=5.0, type=float,
                         help="radius for detecting targets")
     parser.add_argument("--bottle-count", default=10, type=int,
+                        help="number of bottles in area")
+    parser.add_argument("--simulation-number", default=0, type=int,
                         help="number of bottles in area")
     parser.add_argument("--show-covered-area", default=False,
                         help="display covered area on map")
@@ -528,4 +532,4 @@ if __name__ == "__main__":
     sim.set_safe_position(robot)
     sim.add_robot(robot)
 
-    sim.run(args.display)
+    sim.run(args.display, args.simulation_number)

@@ -114,6 +114,7 @@ class Drone(object):
         self.emergency_land = False
         self.emergency_base_return = False
         self.working = True
+        self.total_motion_distance = 0
 
 
     @property
@@ -354,6 +355,11 @@ class Drone(object):
         if target is None:
             target = self._target_point
 
+        try:
+            test = self.x != target[0]
+        except:
+            print(self.x, target)
+
         if self.x != target[0]:
             degree_between_bottle = np.arctan((self.y - target[1]) / (self.x - target[0]))
 
@@ -584,7 +590,6 @@ class Drone(object):
         angle = self.calculate_angle_between_target(target=self._base)
         if self.turn(angle):
             if self.move_linear(target=self._base):
-                self._target_point = None
                 self.working = False
                 print("Returned to base because of low power! Recharge to complete coverage.")
                 print("Last target was x:{0} y:{1}".format(self._last_target_point[0], self._last_target_point[1]))

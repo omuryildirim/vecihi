@@ -1,0 +1,9 @@
+Target couldn't defined. Object is not a bottle.
+Total movement: 9995.40915262 meter
+Battery percentage: 31.9868312758 %
+Consumption: 3060.59259259 mAh
+Total time: 41319 tick
+
+
+emergency cell and point7
+43 - 90
