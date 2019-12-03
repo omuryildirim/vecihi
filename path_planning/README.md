@@ -27,14 +27,14 @@ Prints folder contains result for each map
 _________________________________________
 
 
-drone.py: Classes for Drone and Obstacle. All motion calculation done under Drone class. Also stores poly data for Drone and Obstacles.
+**drone.py**: Classes for Drone and Obstacle. All motion calculation done under Drone class. Also stores poly data for Drone and Obstacles.
 
-drone_3d.obj: 3D vector for rendering drone in simulator.
+**drone_3d.obj**: 3D vector for rendering drone in simulator.
 
-sensor.py: LIDAR sensor class.
+**sensor.py**: LIDAR sensor class.
 
-simulator.py: Run this file to start simulator. You can call simulator from terminal by calling `simulator director.py` command
+**simulator.py**: Run this file to start simulator. You can call simulator from terminal by calling `simulator director.py` command
 
-vertical_cell_decomposition.py: Class for vertical cell decomposition.
+**vertical_cell_decomposition.py**: Class for vertical cell decomposition.
 
-world.py: Simulator world generation class.
+**world.py**: Simulator world generation class.
