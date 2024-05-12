@@ -1,6 +1,0 @@
-Detection coordinate x: -250.187522526, y: 313.833802326
-Beer is Bitburger. Total detected beer bottle count: 1
-Total movement: 3994.50907184 meter
-Battery percentage: 69.4567901235 %
-Consumption: 1374.44444444 mAh
-Total time: 18556 tick

@@ -1,4 +1,0 @@
-Total movement: 4179.23535311 meter
-Battery percentage: 68.3851851852 %
-Consumption: 1422.66666667 mAh
-Total time: 19207 tick

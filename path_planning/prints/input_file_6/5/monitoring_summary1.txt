@@ -1,8 +1,0 @@
-Total movement: 12377.5957541 meter
-Battery percentage: 31.9868312758 %
-Consumption: 3060.59259259 mAh
-Total time: 41319 tick
-
-
-emergency cell and point8
-9 - 36

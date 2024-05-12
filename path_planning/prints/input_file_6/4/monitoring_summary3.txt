@@ -1,6 +1,0 @@
-Detection coordinate x: -250.173090661, y: 308.124245367
-Beer is Erdinger. Total detected beer bottle count: 1
-Total movement: 4051.68935035 meter
-Battery percentage: 67.9094650206 %
-Consumption: 1444.07407407 mAh
-Total time: 19496 tick

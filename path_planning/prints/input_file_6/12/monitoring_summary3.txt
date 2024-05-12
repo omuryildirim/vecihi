@@ -1,8 +1,0 @@
-Detection coordinate x: 165.925526758, y: 250.840518352
-Beer is Franziskaner. Total detected beer bottle count: 1
-Detection coordinate x: 165.925526758, y: 250.840518352
-Beer is Augustiner. Total detected beer bottle count: 2
-Total movement: 7664.74385283 meter
-Battery percentage: 34.6864197531 %
-Consumption: 2939.11111111 mAh
-Total time: 39679 tick

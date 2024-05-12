@@ -1,8 +1,0 @@
-Detection coordinate x: -220.040533651, y: 328.537481915
-Beer is Krombacher. Total detected beer bottle count: 1
-Detection coordinate x: -280.15564321, y: 316.043902853
-Beer is Augustiner. Total detected beer bottle count: 2
-Total movement: 7662.12650413 meter
-Battery percentage: 34.8724279836 %
-Consumption: 2930.74074074 mAh
-Total time: 39566 tick
