@@ -2,6 +2,8 @@
 #include "std_msgs/msg/string.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
 #include "sensor_msgs/point_cloud2_iterator.hpp"
+#include "nav_msgs/msg/path.hpp"
+#include "geometry_msgs/msg/pose_stamped.hpp"
 #include <nlohmann/json.hpp>
 #include <cmath>
 #include <eigen3/Eigen/Dense>
@@ -20,7 +22,8 @@ public:
 
         RCLCPP_INFO(this->get_logger(), "Subscriber node has been started.");
 
-        publisher_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("pointcloud", 10);
+        pointCloudPublisher_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("pointcloud", 10);
+        posePublisher_ = this->create_publisher<nav_msgs::msg::Path>("path", 10);
     }
 
 private:
@@ -73,11 +76,12 @@ private:
             y_values.push_back(world_coords.y());
             z_values.push_back(world_coords.z());
         }
+        push_pose(x_s, y_s, z_s, roll, pitch, yaw);
         count++;
 
         // RCLCPP_INFO(this->get_logger(), "count: %f", (double) count);
 
-        if (count == 10)
+        if (count % 5 == 0)
         {
             // Create a PointCloud2 message
             auto point_cloud_msg = std::make_unique<sensor_msgs::msg::PointCloud2>();
@@ -113,11 +117,40 @@ private:
                 ++iter_z;
             }
 
-            publisher_->publish(std::move(point_cloud_msg));
+            auto path_msg = std::make_unique<nav_msgs::msg::Path>();
+            // Set the header
+            path_msg->header.stamp = this->now();
+            path_msg->header.frame_id = "map"; // Set the frame ID as needed
+            path_msg->poses = poses;
+
+            pointCloudPublisher_->publish(std::move(point_cloud_msg));
+            posePublisher_->publish(std::move(path_msg));
         }
 
         // double alpha = 0.0; // Elevation angle (assuming 0 for simplicity)
         // double beta = 0.0; // Azimuth angle
+    }
+
+    void push_pose(double x, double y, double z, double roll, double pitch, double yaw)
+    {
+        // Create a PoseStamped message
+        geometry_msgs::msg::PoseStamped pose;
+
+        // Set the header
+        pose.header.stamp = this->now();
+        pose.header.frame_id = "map"; // Set the frame ID as needed
+
+        // Set the pose
+        pose.pose.position.x = x; // Set your x value here
+        pose.pose.position.y = y; // Set your y value here
+        pose.pose.position.z = z; // Set your z value here
+
+        // Set orientation (assuming no rotation, identity quaternion)
+        pose.pose.orientation.x = roll;
+        pose.pose.orientation.y = pitch;
+        pose.pose.orientation.z = yaw;
+        pose.pose.orientation.w = 1.0;
+        poses.push_back(pose);
     }
 
     std::pair<double, double> calculate_elavation_and_azimuth(int index)
@@ -183,8 +216,9 @@ private:
     }
 
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
-    rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr publisher_;
-
+    rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pointCloudPublisher_;
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr posePublisher_;
+    std::vector<geometry_msgs::msg::PoseStamped> poses = {};
     // Populate point cloud data
     std::vector<float> x_values = {};
     std::vector<float> y_values = {};
