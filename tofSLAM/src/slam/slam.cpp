@@ -1,6 +1,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
-#include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
+#include "sensor_msgs/msg/point_cloud2.hpp"
+#include "sensor_msgs/point_cloud2_iterator.hpp"
 #include <nlohmann/json.hpp>
 #include <cmath>
 #include <eigen3/Eigen/Dense>
@@ -19,7 +20,7 @@ public:
 
         RCLCPP_INFO(this->get_logger(), "Subscriber node has been started.");
 
-        publisher_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("initialpose", 10);
+        publisher_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("pointcloud", 10);
     }
 
 private:
@@ -32,7 +33,7 @@ private:
         double roll = data["roll"];
         double pitch = data["pitch"];
         double yaw = data["yaw"];
-        std::vector< double > tof;
+        std::vector< float > tof;
         for (auto& elem : data["tof"])
             tof.push_back(elem);
         // calculate tof distances in x y z considering the position, roll and pitch
@@ -41,15 +42,21 @@ private:
 
 
 private:
-    void laser_callback(double x_s, double y_s, double z_s, double roll, double pitch, double yaw, std::vector< double > tof)
+    void laser_callback(double x_s, double y_s, double z_s, double roll, double pitch, double yaw, std::vector< float > tof)
     {
         // For simplicity, we'll use the first laser measurement
 
         // loog the tof vector
         int size = tof.size();
+
         for (int i = 0; i < size; i++)
         {
             double d = tof[i]; // Distance measurement
+
+            if (d == -1.0)
+            {
+                continue;
+            }
             // Calculate the elevation and azimuth angles
             std::pair<double, double> angles = calculate_elavation_and_azimuth(i);
             double alpha = angles.first;
@@ -59,16 +66,54 @@ private:
             Vector3d world_coords = calculate3DPosition(d, alpha, beta, roll, pitch, yaw, x_s, y_s, z_s);
 
             // log the x,y,z information
-            RCLCPP_INFO(this->get_logger(), "point - x: %f, y: %f, z: %f", world_coords.x(), world_coords.y(), world_coords.z());
-            RCLCPP_INFO(this->get_logger(), "sensor - x: %f, y: %f, z: %f", x_s, y_s, z_s);
+            // RCLCPP_INFO(this->get_logger(), "point - x: %f, y: %f, z: %f", world_coords.x(), world_coords.y(), world_coords.z());
+            // RCLCPP_INFO(this->get_logger(), "sensor - x: %f, y: %f, z: %f", x_s, y_s, z_s);
 
-            auto pose_msg = std::make_unique<geometry_msgs::msg::PoseWithCovarianceStamped>();
-            pose_msg->header.stamp = this->now();
-            pose_msg->header.frame_id = "map";
-            pose_msg->pose.pose.position.x = world_coords.x(); // Set your x value here
-            pose_msg->pose.pose.position.y = world_coords.y(); // Set your y value here
-            pose_msg->pose.pose.position.z = world_coords.z(); // Set your z value here
-            publisher_->publish(std::move(pose_msg));
+            x_values.push_back(world_coords.x());
+            y_values.push_back(world_coords.y());
+            z_values.push_back(world_coords.z());
+        }
+        count++;
+
+        // RCLCPP_INFO(this->get_logger(), "count: %f", (double) count);
+
+        if (count % 25 == 0)
+        {
+            // Create a PointCloud2 message
+            auto point_cloud_msg = std::make_unique<sensor_msgs::msg::PointCloud2>();
+
+            // Set the header
+            point_cloud_msg->header.stamp = this->now();
+            point_cloud_msg->header.frame_id = "map"; // Set the frame ID as needed
+
+            // Set point cloud properties
+            point_cloud_msg->height = 1; // Single row point cloud
+            point_cloud_msg->width = x_values.size();  // 3 points
+            point_cloud_msg->is_dense = true; // No invalid points
+
+            // Set the point cloud fields
+            sensor_msgs::PointCloud2Modifier modifier(*point_cloud_msg);
+            modifier.setPointCloud2Fields(3, // x, y, z
+                                           "x", 1, sensor_msgs::msg::PointField::FLOAT32,
+                                           "y", 1, sensor_msgs::msg::PointField::FLOAT32,
+                                           "z", 1, sensor_msgs::msg::PointField::FLOAT32);
+
+            // Create iterators
+            sensor_msgs::PointCloud2Iterator<float> iter_x(*point_cloud_msg, "x");
+            sensor_msgs::PointCloud2Iterator<float> iter_y(*point_cloud_msg, "y");
+            sensor_msgs::PointCloud2Iterator<float> iter_z(*point_cloud_msg, "z");
+
+            for (size_t i = 0; i < x_values.size(); ++i)
+            {
+                *iter_x = x_values[i];
+                *iter_y = y_values[i];
+                *iter_z = z_values[i];
+                ++iter_x;
+                ++iter_y;
+                ++iter_z;
+            }
+
+            publisher_->publish(std::move(point_cloud_msg));
         }
 
         // double alpha = 0.0; // Elevation angle (assuming 0 for simplicity)
@@ -138,7 +183,13 @@ private:
     }
 
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
-    rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr publisher_;
+    rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr publisher_;
+
+    // Populate point cloud data
+    std::vector<float> x_values = {};
+    std::vector<float> y_values = {};
+    std::vector<float> z_values = {};
+    int count = 0;
 };
 int main(int argc, char * argv[])
 {

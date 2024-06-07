@@ -9,13 +9,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 # tof
 add_executable(tofNode src/tof/tofNode.cpp)
 add_executable(slamNode src/slam/slam.cpp)
 ament_target_dependencies(tofNode rclcpp std_msgs)
-ament_target_dependencies(slamNode rclcpp std_msgs geometry_msgs)
+ament_target_dependencies(slamNode rclcpp std_msgs sensor_msgs)
 
 install(TARGETS
         tofNode
