@@ -13,10 +13,13 @@ find_package(geometry_msgs REQUIRED)
 
 # tof
 add_executable(tofNode src/tof/tofNode.cpp)
+add_executable(slamNode src/slam/slam.cpp)
 ament_target_dependencies(tofNode rclcpp std_msgs)
+ament_target_dependencies(slamNode rclcpp std_msgs geometry_msgs)
 
 install(TARGETS
         tofNode
+        slamNode
         DESTINATION lib/${PROJECT_NAME})
 
 # uncomment the following section in order to fill in
