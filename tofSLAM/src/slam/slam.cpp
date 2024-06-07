@@ -37,7 +37,7 @@ private:
         for (auto& elem : data["tof"])
             tof.push_back(elem);
         // calculate tof distances in x y z considering the position, roll and pitch
-        laser_callback(x, y, z, roll, pitch, yaw, tof);
+        laser_callback(x * 100.0, y * 100.0, z * 100.0, roll, pitch, yaw, tof);
     }
 
 
@@ -63,7 +63,7 @@ private:
             double beta = angles.second;
 
             // Calculate the 3D position in world coordinates
-            Vector3d world_coords = calculate3DPosition(d, alpha, beta, roll, pitch, yaw, x_s, y_s, z_s);
+            Vector3d world_coords = calculate3DPosition(d / 10.0, alpha, beta, roll, pitch, yaw, x_s, y_s, z_s);
 
             // log the x,y,z information
             // RCLCPP_INFO(this->get_logger(), "point - x: %f, y: %f, z: %f", world_coords.x(), world_coords.y(), world_coords.z());
@@ -77,7 +77,7 @@ private:
 
         // RCLCPP_INFO(this->get_logger(), "count: %f", (double) count);
 
-        if (count % 25 == 0)
+        if (count == 10)
         {
             // Create a PointCloud2 message
             auto point_cloud_msg = std::make_unique<sensor_msgs::msg::PointCloud2>();
@@ -131,11 +131,11 @@ private:
         double elevation_increment = vertical_fov_ / num_zones_vertical_;
         double azimuth_increment = horizontal_fov_ / num_zones_horizontal_;
 
-        int vertical_zone = index / num_zones_vertical_;
-        int horizontal_zone = index % num_zones_horizontal_;
+        int vertical_zone = index % num_zones_vertical_;
+        int horizontal_zone = index / num_zones_horizontal_;
 
-        double elevation = vertical_zone * elevation_increment;
-        double azimuth = horizontal_zone * azimuth_increment;
+        double elevation = vertical_zone * elevation_increment - vertical_fov_ / 2.0;
+        double azimuth = horizontal_zone * azimuth_increment - horizontal_fov_ / 2.0;
 
         return std::make_pair(elevation, azimuth);
     }
