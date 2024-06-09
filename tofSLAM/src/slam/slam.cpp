@@ -23,7 +23,8 @@ public:
         RCLCPP_INFO(this->get_logger(), "Subscriber node has been started.");
 
         pointCloudPublisher_ = this->create_publisher<sensor_msgs::msg::PointCloud2>("pointcloud", 10);
-        posePublisher_ = this->create_publisher<nav_msgs::msg::Path>("path", 10);
+        pathPublisher_ = this->create_publisher<nav_msgs::msg::Path>("path", 10);
+        posePublisher_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("pose", 10);
     }
 
 private:
@@ -76,7 +77,7 @@ private:
             y_values.push_back(world_coords.y());
             z_values.push_back(world_coords.z());
         }
-        push_pose(x_s, y_s, z_s, roll, pitch, yaw);
+        push_position(x_s, y_s, z_s, roll, pitch, yaw);
         count++;
 
         // RCLCPP_INFO(this->get_logger(), "count: %f", (double) count);
@@ -124,14 +125,15 @@ private:
             path_msg->poses = poses;
 
             pointCloudPublisher_->publish(std::move(point_cloud_msg));
-            posePublisher_->publish(std::move(path_msg));
+            pathPublisher_->publish(std::move(path_msg));
         }
+        posePublisher_->publish(poses.back());
 
         // double alpha = 0.0; // Elevation angle (assuming 0 for simplicity)
         // double beta = 0.0; // Azimuth angle
     }
 
-    void push_pose(double x, double y, double z, double roll, double pitch, double yaw)
+    void push_position(double x, double y, double z, double roll, double pitch, double yaw)
     {
         // Create a PoseStamped message
         geometry_msgs::msg::PoseStamped pose;
@@ -217,7 +219,8 @@ private:
 
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr pointCloudPublisher_;
-    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr posePublisher_;
+    rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr pathPublisher_;
+    rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr posePublisher_;
     std::vector<geometry_msgs::msg::PoseStamped> poses = {};
     // Populate point cloud data
     std::vector<float> x_values = {};
