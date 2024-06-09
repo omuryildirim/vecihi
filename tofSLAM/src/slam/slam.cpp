@@ -10,6 +10,7 @@
 using namespace Eigen;
 using json = nlohmann::json;
 
+#define PI 3.14159265
 
 class SlamNode : public rclcpp::Node
 {
@@ -48,34 +49,32 @@ private:
 private:
     void laser_callback(double x_s, double y_s, double z_s, double roll, double pitch, double yaw, std::vector< float > tof)
     {
-        // For simplicity, we'll use the first laser measurement
-
         // loog the tof vector
         int size = tof.size();
 
+        // RCLCPP_INFO(this->get_logger(), "SENSOR - x: %f, y: %f, z: %f", x_s, y_s, z_s);
         for (int i = 0; i < size; i++)
         {
             double d = tof[i]; // Distance measurement
-
-            if (d == -1.0)
-            {
-                continue;
-            }
             // Calculate the elevation and azimuth angles
-            std::pair<double, double> angles = calculate_elavation_and_azimuth(i);
-            double alpha = angles.first;
-            double beta = angles.second;
+            if (d != -1.0)
+            {
+                std::pair<double, double> angles = calculate_elavation_and_azimuth(i);
+                double alpha = angles.first;
+                double beta = angles.second;
 
-            // Calculate the 3D position in world coordinates
-            Vector3d world_coords = calculate3DPosition(d / 10.0, alpha, beta, roll, pitch, yaw, x_s, y_s, z_s);
+                // Calculate the 3D position in world coordinates
+                Vector3d world_coords = calculate3DPosition(d / 10.0, alpha, beta, roll, pitch, yaw, x_s, y_s, z_s);
 
-            // log the x,y,z information
-            // RCLCPP_INFO(this->get_logger(), "point - x: %f, y: %f, z: %f", world_coords.x(), world_coords.y(), world_coords.z());
-            // RCLCPP_INFO(this->get_logger(), "sensor - x: %f, y: %f, z: %f", x_s, y_s, z_s);
+                // log the x,y,z information
+                // RCLCPP_INFO(this->get_logger(), "distance - %f, i - %f, a: %f, b: %f", d, (double) i, alpha, beta);
+                // RCLCPP_INFO(this->get_logger(), "point - x: %f, y: %f, z: %f", world_coords.x(), world_coords.y(), world_coords.z());
+                // RCLCPP_INFO(this->get_logger(), "sensor - x: %f, y: %f, z: %f", x_s, y_s, z_s);
 
-            x_values.push_back(world_coords.x());
-            y_values.push_back(world_coords.y());
-            z_values.push_back(world_coords.z());
+                x_values.push_back(world_coords.x());
+                y_values.push_back(world_coords.y());
+                z_values.push_back(world_coords.z());
+            }
         }
         push_position(x_s, y_s, z_s, roll, pitch, yaw);
         count++;
@@ -169,8 +168,8 @@ private:
         int vertical_zone = index % num_zones_vertical_;
         int horizontal_zone = index / num_zones_horizontal_;
 
-        double elevation = vertical_zone * elevation_increment - vertical_fov_ / 2.0;
-        double azimuth = horizontal_zone * azimuth_increment - horizontal_fov_ / 2.0;
+        double elevation = vertical_zone * elevation_increment - vertical_fov_ / 2.0 + elevation_increment / 2.0;
+        double azimuth = 90 + horizontal_zone * azimuth_increment - horizontal_fov_ / 2.0 + azimuth_increment / 2.0;
 
         return std::make_pair(elevation, azimuth);
     }
@@ -178,9 +177,9 @@ private:
     Vector3d calculate3DPosition(double d, double alpha, double beta, double roll, double pitch, double yaw, double x_s, double y_s, double z_s)
     {
         // Assume the point is directly in front of the camera along its optical axis
-        double x_l = d * cos(alpha) * sin(beta);
-        double y_l = d * cos(alpha) * cos(beta);
-        double z_l = d * sin(alpha);
+        double x_l = d * cos(alpha * PI / 180.0) * sin(beta * PI / 180.0);
+        double y_l = d * cos(alpha * PI / 180.0) * cos(beta * PI / 180.0);
+        double z_l = d * sin(alpha * PI / 180.0);
 
         Vector3d local_coords(x_l, y_l, z_l);
         // Get the rotation matrix
@@ -198,17 +197,17 @@ private:
 
         // Roll (X-axis rotation)
         R_x << 1, 0, 0,
-               0, cos(roll), -sin(roll),
-               0, sin(roll), cos(roll);
+               0, cos(roll * PI / 180.0), -sin(roll * PI / 180.0),
+               0, sin(roll * PI / 180.0), cos(roll * PI / 180.0);
 
         // Pitch (Y-axis rotation)
-        R_y << cos(pitch), 0, sin(pitch),
+        R_y << cos(pitch * PI / 180.0), 0, sin(pitch * PI / 180.0),
                0, 1, 0,
-               -sin(pitch), 0, cos(pitch);
+               -sin(pitch * PI / 180.0), 0, cos(pitch * PI / 180.0);
 
         // Yaw (Z-axis rotation)
-        R_z << cos(yaw), -sin(yaw), 0,
-               sin(yaw), cos(yaw), 0,
+        R_z << cos(yaw * PI / 180.0), -sin(yaw * PI / 180.0), 0,
+               sin(yaw * PI / 180.0), cos(yaw * PI / 180.0), 0,
                0, 0, 1;
 
         // Combined rotation matrix
