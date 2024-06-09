@@ -45,7 +45,7 @@ public:
             std::chrono::seconds(1),
 			std::bind(&TofNode::timer_callback, this)
 		);
-		count_ = 0;
+		count_ = 42;
     }
 
 private:
