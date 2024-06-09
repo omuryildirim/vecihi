@@ -169,7 +169,7 @@ private:
         int horizontal_zone = index / num_zones_horizontal_;
 
         double elevation = vertical_zone * elevation_increment - vertical_fov_ / 2.0 + elevation_increment / 2.0;
-        double azimuth = 90 + horizontal_zone * azimuth_increment - horizontal_fov_ / 2.0 + azimuth_increment / 2.0;
+        double azimuth = horizontal_zone * azimuth_increment - horizontal_fov_ / 2.0 + azimuth_increment / 2.0;
 
         return std::make_pair(elevation, azimuth);
     }
@@ -183,7 +183,7 @@ private:
 
         Vector3d local_coords(x_l, y_l, z_l);
         // Get the rotation matrix
-        Matrix3d R = getRotationMatrix(roll, pitch, yaw);
+        Matrix3d R = getRotationMatrix(roll + 90, pitch + 90, yaw);
 
         // Calculate the world coordinates
         Vector3d sensor_position(x_s, y_s, z_s);
