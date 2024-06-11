@@ -42,7 +42,7 @@ public:
         messages = read_json_file(file_path);
         publisher_ = this->create_publisher<std_msgs::msg::String>("tof", 10);
     	timer_ = this->create_wall_timer(
-            std::chrono::seconds(1),
+            std::chrono::milliseconds(10),
 			std::bind(&TofNode::timer_callback, this)
 		);
 		count_ = 0;
