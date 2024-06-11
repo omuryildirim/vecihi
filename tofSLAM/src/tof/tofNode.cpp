@@ -45,7 +45,7 @@ public:
             std::chrono::seconds(1),
 			std::bind(&TofNode::timer_callback, this)
 		);
-		count_ = 42;
+		count_ = 0;
     }
 
 private:
@@ -62,8 +62,11 @@ private:
         	{"tof", messages["tof"]["distances"][count_]}
     	};
     	message.data = ex3.dump();
+		double pitch = messages["pos"]["pitch"][count_];
     	// RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
-    	publisher_->publish(message);
+		if (messages["pos"]["vz"][count_] < 5.0 && abs(pitch) < 1.0) {
+    		publisher_->publish(message);
+		}
 	    count_++;
 	}
 
