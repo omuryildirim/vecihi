@@ -12,12 +12,10 @@ using json = nlohmann::json;
 
 #define PI 3.14159265
 
-class SlamNode : public rclcpp::Node
-{
+class SlamNode : public rclcpp::Node {
 public:
     SlamNode()
-    : Node("subscriber_node")
-    {
+        : Node("subscriber_node") {
         subscription_ = this->create_subscription<std_msgs::msg::String>(
             "tof", 10, std::bind(&SlamNode::topic_callback, this, std::placeholders::_1));
 
@@ -29,8 +27,7 @@ public:
     }
 
 private:
-    void topic_callback(const std_msgs::msg::String::SharedPtr msg)
-    {
+    void topic_callback(const std_msgs::msg::String::SharedPtr msg) {
         json data = json::parse(msg->data.c_str());
         double x = data["x"];
         double y = data["y"];
@@ -38,27 +35,24 @@ private:
         double roll = data["roll"];
         double pitch = data["pitch"];
         double yaw = data["yaw"];
-        std::vector< float > tof;
-        for (auto& elem : data["tof"])
+        std::vector<float> tof;
+        for (auto &elem: data["tof"])
             tof.push_back(elem);
         // calculate tof distances in x y z considering the position, roll and pitch
         laser_callback(x * 100.0, y * 100.0, z * 100.0, roll, pitch, yaw, tof);
     }
 
-
 private:
-    void laser_callback(double x_s, double y_s, double z_s, double roll, double pitch, double yaw, std::vector< float > tof)
-    {
+    void laser_callback(double x_s, double y_s, double z_s, double roll, double pitch, double yaw,
+                        std::vector<float> tof) {
         // loog the tof vector
         int size = tof.size();
 
         // RCLCPP_INFO(this->get_logger(), "SENSOR - x: %f, y: %f, z: %f", x_s, y_s, z_s);
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             double d = tof[i]; // Distance measurement
             // Calculate the elevation and azimuth angles
-            if (d != -1.0)
-            {
+            if (d != -1.0) {
                 std::pair<double, double> angles = calculate_elavation_and_azimuth(i);
                 double alpha = angles.first;
                 double beta = angles.second;
@@ -81,8 +75,7 @@ private:
 
         // RCLCPP_INFO(this->get_logger(), "count: %f", (double) count);
 
-        if (count % 5 == 0)
-        {
+        if (count % 5 == 0) {
             // Create a PointCloud2 message
             auto point_cloud_msg = std::make_unique<sensor_msgs::msg::PointCloud2>();
 
@@ -92,23 +85,22 @@ private:
 
             // Set point cloud properties
             point_cloud_msg->height = 1; // Single row point cloud
-            point_cloud_msg->width = x_values.size();  // 3 points
+            point_cloud_msg->width = x_values.size(); // 3 points
             point_cloud_msg->is_dense = true; // No invalid points
 
             // Set the point cloud fields
             sensor_msgs::PointCloud2Modifier modifier(*point_cloud_msg);
             modifier.setPointCloud2Fields(3, // x, y, z
-                                           "x", 1, sensor_msgs::msg::PointField::FLOAT32,
-                                           "y", 1, sensor_msgs::msg::PointField::FLOAT32,
-                                           "z", 1, sensor_msgs::msg::PointField::FLOAT32);
+                                          "x", 1, sensor_msgs::msg::PointField::FLOAT32,
+                                          "y", 1, sensor_msgs::msg::PointField::FLOAT32,
+                                          "z", 1, sensor_msgs::msg::PointField::FLOAT32);
 
             // Create iterators
             sensor_msgs::PointCloud2Iterator<float> iter_x(*point_cloud_msg, "x");
             sensor_msgs::PointCloud2Iterator<float> iter_y(*point_cloud_msg, "y");
             sensor_msgs::PointCloud2Iterator<float> iter_z(*point_cloud_msg, "z");
 
-            for (size_t i = 0; i < x_values.size(); ++i)
-            {
+            for (size_t i = 0; i < x_values.size(); ++i) {
                 *iter_x = x_values[i];
                 *iter_y = y_values[i];
                 *iter_z = z_values[i];
@@ -132,8 +124,7 @@ private:
         // double beta = 0.0; // Azimuth angle
     }
 
-    void push_position(double x, double y, double z, double roll, double pitch, double yaw)
-    {
+    void push_position(double x, double y, double z, double roll, double pitch, double yaw) {
         // Create a PoseStamped message
         geometry_msgs::msg::PoseStamped pose;
 
@@ -154,8 +145,7 @@ private:
         poses.push_back(pose);
     }
 
-    std::pair<double, double> calculate_elavation_and_azimuth(int index)
-    {
+    std::pair<double, double> calculate_elavation_and_azimuth(int index) {
         int num_zones_vertical_ = 8;
         int num_zones_horizontal_ = 8;
         double vertical_fov_ = 45.0;
@@ -174,8 +164,8 @@ private:
         return std::make_pair(elevation, azimuth);
     }
 
-    Vector3d calculate3DPosition(double d, double alpha, double beta, double roll, double pitch, double yaw, double x_s, double y_s, double z_s)
-    {
+    Vector3d calculate3DPosition(double d, double alpha, double beta, double roll, double pitch, double yaw, double x_s,
+                                 double y_s, double z_s) {
         // Assume the point is directly in front of the camera along its optical axis
         double x_l = d * cos(alpha * PI / 180.0) * sin(beta * PI / 180.0);
         double y_l = d * cos(alpha * PI / 180.0) * cos(beta * PI / 180.0);
@@ -191,24 +181,24 @@ private:
 
         return world_coords;
     }
-    Matrix3d getRotationMatrix(double roll, double pitch, double yaw)
-    {
+
+    Matrix3d getRotationMatrix(double roll, double pitch, double yaw) {
         Matrix3d R_x, R_y, R_z;
 
         // Roll (X-axis rotation)
         R_x << 1, 0, 0,
-               0, cos(roll * PI / 180.0), -sin(roll * PI / 180.0),
-               0, sin(roll * PI / 180.0), cos(roll * PI / 180.0);
+                0, cos(roll * PI / 180.0), -sin(roll * PI / 180.0),
+                0, sin(roll * PI / 180.0), cos(roll * PI / 180.0);
 
         // Pitch (Y-axis rotation)
         R_y << cos(pitch * PI / 180.0), 0, sin(pitch * PI / 180.0),
-               0, 1, 0,
-               -sin(pitch * PI / 180.0), 0, cos(pitch * PI / 180.0);
+                0, 1, 0,
+                -sin(pitch * PI / 180.0), 0, cos(pitch * PI / 180.0);
 
         // Yaw (Z-axis rotation)
         R_z << cos(yaw * PI / 180.0), -sin(yaw * PI / 180.0), 0,
-               sin(yaw * PI / 180.0), cos(yaw * PI / 180.0), 0,
-               0, 0, 1;
+                sin(yaw * PI / 180.0), cos(yaw * PI / 180.0), 0,
+                0, 0, 1;
 
         // Combined rotation matrix
         Matrix3d R = R_z * R_y * R_x;
@@ -227,8 +217,8 @@ private:
     std::vector<float> z_values = {};
     int count = 0;
 };
-int main(int argc, char * argv[])
-{
+
+int main(int argc, char *argv[]) {
     rclcpp::init(argc, argv);
     auto node = std::make_shared<SlamNode>();
     rclcpp::spin(node);
