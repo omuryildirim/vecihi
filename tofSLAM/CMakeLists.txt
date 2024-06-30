@@ -12,12 +12,20 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(PCL REQUIRED)
+find_package(pcl_conversions REQUIRED)
+find_package(OpenCV REQUIRED QUIET)
+find_package(tf2 REQUIRED QUIET)
+
+include_directories(include ${PCL_INCLUDE_DIRS})
 
 # tof
 add_executable(tofNode src/tof/tofNode.cpp)
-add_executable(slamNode src/slam/slam.cpp)
+add_executable(slamNode src/slam/slam.cpp
+        src/slam/featureExtraction.cpp)
 ament_target_dependencies(tofNode rclcpp std_msgs)
-ament_target_dependencies(slamNode rclcpp std_msgs sensor_msgs nav_msgs geometry_msgs)
+ament_target_dependencies(slamNode rclcpp std_msgs sensor_msgs nav_msgs geometry_msgs PCL pcl_conversions tf2 tf2_geometry_msgs)
 
 install(TARGETS
         tofNode
