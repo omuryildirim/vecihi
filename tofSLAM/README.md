@@ -15,8 +15,59 @@ Here a sample point cloud produced from A6 sample data:
 
 ## Installation
 
-In order to have Eigen library installed, you can use the following command:
+Install multipass to setup a virtual machine for ROS2
+
+```bash
+sudo snap install multipass
+brew install multipass
+```
+
+Follow [guide](https://ubuntu.com/blog/ros-development-on-linux-windows-and-macos) to install ROS2 Humble blueprint (or newer versions of ROS2).
+
+To use graphical interface of the virtual machine, install xquartz. Then setup ssh connection to the virtual machine with x11 forwarding:
+
+```bash
+multipass exec tof-vm -- bash -c "echo `cat ~/.ssh/id_rsa.pub` >> ~/.ssh/authorized_keys"
+```
+
+Establish ssh connection with x11 forwarding:
+```bash
+ssh -X ubuntu@xx.xx.xx.xx
+```
+
+Note: You can learn the ip address of the virtual machine with the command:
 
 ```bash 
-sudo apt-get install libeigen3-dev
+multipass info tof-vm
+```
+
+### Build the project
+
+After installation run build command:
+
+```bash
+colcon build
+```
+
+Source the build:
+
+```bash
+source install/local_setup.sh
+```
+
+Run the nodes:
+```bash
+ros2 run tofSlam slamNode
+ros2 run tofSlam tofNode
+```
+
+### Install foxglove for visualisation
+
+Follow [guide](https://docs.foxglove.dev/docs/introduction) to install foxglove. And then install [foxglove-bridge](https://docs.foxglove.dev/docs/connecting-to-data/ros-foxglove-bridge).
+
+Then run foxglove bridge and foxglove studio:
+
+```bash
+ros2 launch foxglove_bridge foxglove_bridge_launch.xml
+foxglove-studio
 ```

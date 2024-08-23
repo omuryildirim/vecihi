@@ -1,6 +1,6 @@
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
-#include <nlohmann/json.hpp>
+#include "../nlohmann/json.hpp"
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -41,7 +41,7 @@ public:
         : Node("tofNode")
     {
         RCLCPP_INFO(this->get_logger(), "Hello ROS 2");
-        std::string file_path = "/mnt/d/Projects/vecihi/tofSLAM/data/A9_ToF_data_pack.json";
+        std::string file_path = "/home/ubuntu/dev/vecihi/tofSLAM/data/A6_ToF_data_pack.json";
         // Update this with the actual file path
         messages = read_json_file(file_path);
         publisher_ = this->create_publisher<std_msgs::msg::String>("tof", 10);
