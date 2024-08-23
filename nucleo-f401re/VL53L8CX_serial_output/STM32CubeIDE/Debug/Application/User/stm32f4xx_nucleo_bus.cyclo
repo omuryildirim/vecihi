@@ -1,0 +1,13 @@
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:91:9:BSP_I2C1_Init	5
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:135:9:BSP_I2C1_DeInit	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:163:9:BSP_I2C1_IsReady	2
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:184:9:BSP_I2C1_WriteReg	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:210:10:BSP_I2C1_ReadReg	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:238:9:BSP_I2C1_WriteReg16	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:263:10:BSP_I2C1_ReadReg16	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:288:9:BSP_I2C1_Send	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:313:9:BSP_I2C1_Recv	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:388:9:BSP_GetTick	1
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:394:26:MX_I2C1_Init	2
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:415:13:I2C1_MspInit	1
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo_bus.c:448:13:I2C1_MspDeInit	1

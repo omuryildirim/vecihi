@@ -1,0 +1,7 @@
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/modules/vl53l8cx_plugin_xtalk.c:20:16:_vl53l8cx_poll_for_answer	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/modules/vl53l8cx_plugin_xtalk.c:54:16:_vl53l8cx_program_output_config	8
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/modules/vl53l8cx_plugin_xtalk.c:146:9:vl53l8cx_calibrate_xtalk	12
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/modules/vl53l8cx_plugin_xtalk.c:289:9:vl53l8cx_get_caldata_xtalk	1
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/modules/vl53l8cx_plugin_xtalk.c:318:9:vl53l8cx_set_caldata_xtalk	1
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/modules/vl53l8cx_plugin_xtalk.c:331:9:vl53l8cx_get_xtalk_margin	1
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/modules/vl53l8cx_plugin_xtalk.c:346:9:vl53l8cx_set_xtalk_margin	2
