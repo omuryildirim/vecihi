@@ -125,7 +125,7 @@ static void MX_VL53L8CX_SimpleRanging_Process(void)
   static VL53L8CX_ResultsData data;
   uint8_t NewDataReady = 0;
 
-  Profile.RangingProfile = RS_PROFILE_4x4_CONTINUOUS;
+  Profile.RangingProfile = RS_PROFILE_8x8_CONTINUOUS;
   Profile.TimingBudget = TIMING_BUDGET;
   Profile.Frequency = RANGING_FREQUENCY; /* Ranging frequency Hz (shall be consistent with TimingBudget value) */
   Profile.EnableAmbient = 0; /* Enable: 1, Disable: 0 */
@@ -175,7 +175,9 @@ static void MX_VL53L8CX_SimpleRanging_Process(void)
           printf("convert_data_format failed\n");
           while (1);
         }
+        printf("[");
         print_result(&Result);
+        printf("]");
       }
     }
 
@@ -196,7 +198,7 @@ static void MX_VL53L8CX_SimpleRanging_Process(void)
   CUSTOM_RANGING_SENSOR_ReadID(CUSTOM_VL53L8CX, &Id);
   CUSTOM_RANGING_SENSOR_GetCapabilities(CUSTOM_VL53L8CX, &Cap);
 
-  Profile.RangingProfile = RS_PROFILE_4x4_CONTINUOUS;
+  Profile.RangingProfile = RS_PROFILE_8x8_CONTINUOUS;
   Profile.TimingBudget = TIMING_BUDGET;
   Profile.Frequency = RANGING_FREQUENCY; /* Ranging frequency Hz (shall be consistent with TimingBudget value) */
   Profile.EnableAmbient = 0; /* Enable: 1, Disable: 0 */
@@ -238,8 +240,52 @@ static void print_result(RANGING_SENSOR_Result_t *Result)
   zones_per_line = ((Profile.RangingProfile == RS_PROFILE_8x8_AUTONOMOUS) ||
                     (Profile.RangingProfile == RS_PROFILE_8x8_CONTINUOUS)) ? 8 : 4;
 
-  display_commands_banner();
 
+  printf("[");
+  for (j = 0; j < Result->NumberOfZones; j += zones_per_line)
+  {
+	printf("[");
+    for (l = 0; l < RANGING_SENSOR_NB_TARGET_PER_ZONE; l++)
+    {
+      /* Print distance and status */
+      for (k = (zones_per_line - 1); k >= 0; k--)
+      {
+        if (Result->ZoneResult[j + k].NumberOfTargets > 0)
+        {
+          if (k == 0)
+          {
+            printf("[%ld, %ld]",
+                   (long)Result->ZoneResult[j + k].Distance[l],
+                   (long)Result->ZoneResult[j + k].Status[l]);
+          }
+          else
+          {
+            printf("[%ld, %ld],",
+                   (long)Result->ZoneResult[j + k].Distance[l],
+                   (long)Result->ZoneResult[j + k].Status[l]);
+          }
+        }
+        else
+        {
+            if (k == 0)
+            {
+            	printf("[\"X\", \"X\"]");
+            }
+            else
+            {
+            	printf("[\"X\", \"X\"],");
+            }
+        }
+      }
+    }
+	printf("],");
+  }
+  printf("],");
+  printf("\n");
+
+
+  /*
+  display_commands_banner();
   printf("Cell Format :\n\n");
   for (l = 0; l < RANGING_SENSOR_NB_TARGET_PER_ZONE; l++)
   {
@@ -255,6 +301,7 @@ static void print_result(RANGING_SENSOR_Result_t *Result)
   for (j = 0; j < Result->NumberOfZones; j += zones_per_line)
   {
     for (i = 0; i < zones_per_line; i++) /* number of zones per line */
+  /*
     {
       printf(" -----------------");
     }
@@ -269,6 +316,7 @@ static void print_result(RANGING_SENSOR_Result_t *Result)
     for (l = 0; l < RANGING_SENSOR_NB_TARGET_PER_ZONE; l++)
     {
       /* Print distance and status */
+  /*
       for (k = (zones_per_line - 1); k >= 0; k--)
       {
         if (Result->ZoneResult[j + k].NumberOfTargets > 0)
@@ -294,6 +342,7 @@ static void print_result(RANGING_SENSOR_Result_t *Result)
       if ((Profile.EnableAmbient != 0) || (Profile.EnableSignal != 0))
       {
         /* Print Signal and Ambient */
+  /*
         for (k = (zones_per_line - 1); k >= 0; k--)
         {
           if (Result->ZoneResult[j + k].NumberOfTargets > 0)
@@ -325,6 +374,7 @@ static void print_result(RANGING_SENSOR_Result_t *Result)
     printf(" -----------------");
   }
   printf("\n");
+  */
 }
 
 static void toggle_resolution(void)

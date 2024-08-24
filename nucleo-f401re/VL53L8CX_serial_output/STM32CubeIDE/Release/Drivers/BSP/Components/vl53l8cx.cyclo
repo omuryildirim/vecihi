@@ -1,0 +1,17 @@
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:169:9:VL53L8CX_DeInit	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:244:9:VL53L8CX_GetCapabilities	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:355:9:VL53L8CX_ConfigROI	1
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:576:9:VL53L8CX_GetAddress	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:134:9:VL53L8CX_Init	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:205:9:VL53L8CX_ReadID	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:271:9:VL53L8CX_ConfigProfile	8
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:368:9:VL53L8CX_ConfigIT	5
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:685:16:vl53l8cx_poll_for_measurement	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:422:9:VL53L8CX_GetDistance	14
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:463:9:VL53L8CX_Start	7
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:517:9:VL53L8CX_Stop	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:549:9:VL53L8CX_SetAddress	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:599:9:VL53L8CX_SetPowerMode	3
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:630:9:VL53L8CX_GetPowerMode	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:93:9:VL53L8CX_RegisterBusIO	4
+/Users/omuryildirim/dev/en.X-CUBE-TOF1/Drivers/BSP/Components/vl53l8cx/vl53l8cx.c:661:9:VL53L8CX_XTalkCalibration	1
