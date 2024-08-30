@@ -150,8 +150,8 @@ private:
     std::pair<double, double> calculate_elavation_and_azimuth(int index) {
         int num_zones_vertical_ = 8;
         int num_zones_horizontal_ = 8;
-        double vertical_fov_ = 45.0;
-        double horizontal_fov_ = 45.0;
+        double vertical_fov_ = 48.46;
+        double horizontal_fov_ = 48.46;
 
         // Calculate elevation and azimuth angles for each zone
         double elevation_increment = vertical_fov_ / num_zones_vertical_;
