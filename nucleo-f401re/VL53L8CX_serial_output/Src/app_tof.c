@@ -26,6 +26,7 @@ extern "C" {
 #include "app_tof.h"
 #include "main.h"
 #include <stdio.h>
+#include <time.h>
 
 #include "custom_ranging_sensor.h"
 #include "stm32f4xx_nucleo.h"
@@ -125,7 +126,7 @@ static void MX_VL53L8CX_SimpleRanging_Process(void)
   static VL53L8CX_ResultsData data;
   uint8_t NewDataReady = 0;
 
-  Profile.RangingProfile = RS_PROFILE_8x8_CONTINUOUS;
+  Profile.RangingProfile = RS_PROFILE_4x4_CONTINUOUS;
   Profile.TimingBudget = TIMING_BUDGET;
   Profile.Frequency = RANGING_FREQUENCY; /* Ranging frequency Hz (shall be consistent with TimingBudget value) */
   Profile.EnableAmbient = 0; /* Enable: 1, Disable: 0 */
@@ -175,9 +176,7 @@ static void MX_VL53L8CX_SimpleRanging_Process(void)
           printf("convert_data_format failed\n");
           while (1);
         }
-        printf("[");
         print_result(&Result);
-        printf("]");
       }
     }
 
@@ -231,61 +230,75 @@ static void MX_VL53L8CX_SimpleRanging_Process(void)
 
 static void print_result(RANGING_SENSOR_Result_t *Result)
 {
-  int8_t i;
+  int8_t i = 0;
   int8_t j;
   int8_t k;
   int8_t l;
   uint8_t zones_per_line;
+  char log_ext[1000] = "";
 
   zones_per_line = ((Profile.RangingProfile == RS_PROFILE_8x8_AUTONOMOUS) ||
                     (Profile.RangingProfile == RS_PROFILE_8x8_CONTINUOUS)) ? 8 : 4;
 
+  // display_commands_banner();
 
-  printf("[");
+  // Print the timestamp
+  sprintf((char *)log_ext, "%s", "[");
   for (j = 0; j < Result->NumberOfZones; j += zones_per_line)
   {
-	printf("[");
-    for (l = 0; l < RANGING_SENSOR_NB_TARGET_PER_ZONE; l++)
-    {
-      /* Print distance and status */
-      for (k = (zones_per_line - 1); k >= 0; k--)
-      {
-        if (Result->ZoneResult[j + k].NumberOfTargets > 0)
-        {
-          if (k == 0)
-          {
-            printf("[%ld, %ld]",
-                   (long)Result->ZoneResult[j + k].Distance[l],
-                   (long)Result->ZoneResult[j + k].Status[l]);
-          }
-          else
-          {
-            printf("[%ld, %ld],",
-                   (long)Result->ZoneResult[j + k].Distance[l],
-                   (long)Result->ZoneResult[j + k].Status[l]);
-          }
-        }
-        else
-        {
-            if (k == 0)
-            {
-            	printf("[\"X\", \"X\"]");
-            }
-            else
-            {
-            	printf("[\"X\", \"X\"],");
-            }
-        }
-      }
-    }
-	printf("],");
-  }
-  printf("],");
-  printf("\n");
+    	/* number of zones per line */
+	  sprintf((char *)log_ext, "%s%s", log_ext, "[");
+	  for (l = 0; l < RANGING_SENSOR_NB_TARGET_PER_ZONE; l++)
+	  {
+		/* Print distance and status */
+		for (k = (zones_per_line - 1); k >= 0; k--)
+		{
+		  if (Result->ZoneResult[j + k].NumberOfTargets > 0)
+		  {
+			i++;
+			if (k == 0)
+			{
+				sprintf((char *)log_ext, "%s[%ld, %ld]",
+						log_ext,
+						(long)Result->ZoneResult[j + k].Distance[l],
+					    (long)Result->ZoneResult[j + k].Status[l]);
+			}
+			else
+			{
+				sprintf((char *)log_ext, "%s[%ld, %ld],",
+						log_ext,
+						(long)Result->ZoneResult[j + k].Distance[l],
+						(long)Result->ZoneResult[j + k].Status[l]);
+			}
+		  }
+		  else
+		  {
+			  if (k == 0)
+			  {
+					sprintf((char *)log_ext, "%s[%ld, %ld]",
+							log_ext,
+							-1,
+						    -1);
+			  }
+			  else
+			  {
+					sprintf((char *)log_ext, "%s[%ld, %ld],",
+							log_ext,
+							-1,
+						    -1);
+			  }
 
+		  }
+		}
+	  }
+	  sprintf((char *)log_ext, "%s%s", log_ext, "],");
+  }
+  sprintf((char *)log_ext, "%s%s", log_ext, "]\r\n");
+  HAL_UART_Transmit(&huart2, log_ext, strlen((char *)log_ext), HAL_MAX_DELAY);
 
   /*
-  display_commands_banner();
+
+
   printf("Cell Format :\n\n");
   for (l = 0; l < RANGING_SENSOR_NB_TARGET_PER_ZONE; l++)
   {
@@ -373,7 +386,6 @@ static void print_result(RANGING_SENSOR_Result_t *Result)
   {
     printf(" -----------------");
   }
-  printf("\n");
   */
 }
 

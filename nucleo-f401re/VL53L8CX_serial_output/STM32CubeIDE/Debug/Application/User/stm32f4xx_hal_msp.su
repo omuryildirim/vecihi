@@ -1,1 +1,5 @@
-/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_hal_msp.c:63:6:HAL_MspInit	16	static
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_hal_msp.c:64:6:HAL_MspInit	16	static
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_hal_msp.c:89:6:HAL_I2C_MspInit	48	static
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_hal_msp.c:134:6:HAL_I2C_MspDeInit	16	static
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_hal_msp.c:165:6:HAL_TIM_Base_MspInit	24	static
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_hal_msp.c:195:6:HAL_TIM_Base_MspDeInit	16	static

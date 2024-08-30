@@ -1,3 +1,4 @@
-/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/main.c:111:6:SystemClock_Config	3
-/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/main.c:65:5:main	1
-/Users/omuryildirim/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/main.c:224:6:Error_Handler	1
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/main.c:153:6:SystemClock_Config	3
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/main.c:74:5:main	5
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/main.c:324:6:HAL_TIM_PeriodElapsedCallback	2
+/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/main.c:347:6:Error_Handler	1

@@ -22,6 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "MPUXX50.h"
+#include <time.h>
 
 /* USER CODE END Includes */
 
@@ -41,20 +43,27 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+I2C_HandleTypeDef hi2c3;
+
+TIM_HandleTypeDef htim11;
 
 /* USER CODE BEGIN PV */
-
+uint8_t serialBuf[100];
+Attitude attitude;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_I2C3_Init(void);
+static void MX_TIM11_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+MPUXX50 imu;
 
 /* USER CODE END 0 */
 
@@ -87,19 +96,52 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_I2C3_Init();
+  MX_TIM11_Init();
   MX_TOF_Init();
   /* USER CODE BEGIN 2 */
+
+  // Initialize the IMU
+  MPUXX50_Init(&imu, &hi2c3, AD0_LOW);
+
+  // Configure IMU
+  MPUXX50_SetGyroFullScaleRange(&imu, GFSR_500DPS);
+  MPUXX50_SetAccFullScaleRange(&imu, AFSR_4G);
+  MPUXX50_SetDeltaTime(&imu, 0.004f);
+  MPUXX50_SetTau(&imu, 0.98f);
+
+
+  // Check if IMU configured properly and block if it didn't
+  if (MPUXX50_Begin(&imu) != 1)  // TRUE is usually 1
+  {
+      sprintf((char *)serialBuf, "ERROR!\r\n");
+      HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
+  }
+  else
+  {
+	  // Calibrate the IMU
+	  sprintf((char *)serialBuf, "CALIBRATING...\r\n");
+	  HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
+	  MPUXX50_CalibrateGyro(&imu, 5000);
+  }
+
+  // Start timer and put processor into an efficient low power mode
+  printf("CALIBRATED...\r\n");
+  if (HAL_TIM_Base_Start_IT(&htim11) != HAL_OK) {
+      Error_Handler();
+  }
+  printf("Clock enabled...\r\n");
+  // HAL_PWR_EnableSleepOnExit();
+  // HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  while(1) {
     /* USER CODE END WHILE */
-
-  MX_TOF_Process();
     /* USER CODE BEGIN 3 */
+	  MX_TOF_Process();
   }
   /* USER CODE END 3 */
 }
@@ -148,6 +190,71 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief I2C3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_I2C3_Init(void)
+{
+
+  /* USER CODE BEGIN I2C3_Init 0 */
+
+  /* USER CODE END I2C3_Init 0 */
+
+  /* USER CODE BEGIN I2C3_Init 1 */
+
+  /* USER CODE END I2C3_Init 1 */
+  hi2c3.Instance = I2C3;
+  hi2c3.Init.ClockSpeed = 100000;
+  hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c3.Init.OwnAddress1 = 0;
+  hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c3.Init.OwnAddress2 = 0;
+  hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  if (HAL_I2C_Init(&hi2c3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN I2C3_Init 2 */
+
+  /* USER CODE END I2C3_Init 2 */
+
+}
+
+/**
+  * @brief TIM11 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM11_Init(void)
+{
+
+  /* USER CODE BEGIN TIM11_Init 0 */
+
+  /* USER CODE END TIM11_Init 0 */
+
+  /* USER CODE BEGIN TIM11_Init 1 */
+
+  /* USER CODE END TIM11_Init 1 */
+  htim11.Instance = TIM11;
+  htim11.Init.Prescaler = 8400-1;
+  htim11.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim11.Init.Period = 40-1;
+  htim11.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim11.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim11) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM11_Init 2 */
+
+  /* USER CODE END TIM11_Init 2 */
+
 }
 
 /**
@@ -214,7 +321,23 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    // Callback, timer has rolled over
+    if (htim == &htim11)
+    {
+        HAL_ResumeTick();
 
+        // Calculate attitude using the IMU in C
+        attitude = MPUXX50_CalcAttitude(&imu);
+
+        // Transmit attitude over UART
+        sprintf((char *)serialBuf, "%.1f,%.1f,%.1f,%.4f,%.4f,%.4f,%.4f\r\n", attitude.r, attitude.p, attitude.yaw, attitude.y, attitude.z, attitude.vy, attitude.vz);
+        HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
+
+        HAL_SuspendTick();
+    }
+}
 /* USER CODE END 4 */
 
 /**

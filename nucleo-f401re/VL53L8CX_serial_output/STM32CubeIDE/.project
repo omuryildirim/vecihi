@@ -78,7 +78,7 @@
 		<link>
 			<name>Drivers/CMSIS/system_stm32f4xx.c</name>
 			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/Src/system_stm32f4xx.c</locationURI>
+			<locationURI>copy_PARENT/Src/system_stm32f4xx.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal.c</name>
@@ -206,4 +206,10 @@
 			<locationURI>PARENT-6-PROJECT_LOC/Drivers/BSP/Components/vl53l8cx/LICENSE.txt</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>copy_PARENT</name>
+			<value>$%7BPARENT-8-PROJECT_LOC%7D/dev/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/53L8A1/53L8A1_MultiSensorRanging</value>
+		</variable>
+	</variableList>
 </projectDescription>
