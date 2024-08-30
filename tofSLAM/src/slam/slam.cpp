@@ -72,6 +72,7 @@ private:
         }
         push_position(x_s, y_s, z_s, roll, pitch, yaw);
         count++;
+        RCLCPP_INFO(this->get_logger(), "Callback");
 
         // RCLCPP_INFO(this->get_logger(), "count: %f", (double) count);
 
@@ -117,6 +118,7 @@ private:
 
             pointCloudPublisher_->publish(std::move(point_cloud_msg));
             pathPublisher_->publish(std::move(path_msg));
+            RCLCPP_INFO(this->get_logger(), "Published message.");
         }
         posePublisher_->publish(poses.back());
 

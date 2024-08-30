@@ -27,6 +27,7 @@ private:
         {
             std::ifstream f(file_path);
             json data = json::parse(f);
+            RCLCPP_INFO(this->get_logger(), "Parsed the JSON!");
             return data;
         }
         catch (json::parse_error& e)
@@ -56,6 +57,7 @@ private:
     void timer_callback()
     {
         auto message = std_msgs::msg::String();
+        RCLCPP_INFO(this->get_logger(), "Publishing message: %d", count_);
         json ex3 = {
             {"x", messages["pos"]["x"][count_]},
             {"y", messages["pos"]["y"][count_]},
