@@ -175,7 +175,7 @@ private:
 
         Vector3d local_coords(x_l, y_l, z_l);
         // Get the rotation matrix
-        Matrix3d R = getRotationMatrix(roll + 90, pitch + 90, yaw);
+        Matrix3d R = getRotationMatrix(roll, pitch, yaw);
 
         // Calculate the world coordinates
         Vector3d sensor_position(x_s, y_s, z_s);
