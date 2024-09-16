@@ -17,19 +17,23 @@ find_package(PCL REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(OpenCV REQUIRED QUIET)
 find_package(tf2 REQUIRED QUIET)
+find_library(SERIALPORT_LIB serialport REQUIRED)
 
 include_directories(include ${PCL_INCLUDE_DIRS})
 
 # tof
 add_executable(tofNode src/tof/tofNode.cpp)
-add_executable(slamNode src/slam/slam.cpp
-        src/slam/featureExtraction.cpp)
+add_executable(slamNode src/slam/slam.cpp)
+add_executable(serial_listener src/serial_listener/serial_listener.cpp)
 ament_target_dependencies(tofNode rclcpp std_msgs)
 ament_target_dependencies(slamNode rclcpp std_msgs sensor_msgs nav_msgs geometry_msgs PCL pcl_conversions tf2 tf2_geometry_msgs)
+ament_target_dependencies(serial_listener rclcpp std_msgs)
+target_link_libraries(serial_listener ${SERIALPORT_LIB})
 
 install(TARGETS
         tofNode
         slamNode
+        serial_listener
         DESTINATION lib/${PROJECT_NAME})
 
 # uncomment the following section in order to fill in

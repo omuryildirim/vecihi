@@ -6,6 +6,7 @@
 #include <string>
 #include <chrono>
 #include <memory>
+#include <string> 
 
 using namespace std::chrono_literals;
 using json = nlohmann::json;
@@ -42,7 +43,7 @@ public:
         : Node("tofNode")
     {
         RCLCPP_INFO(this->get_logger(), "Hello ROS 2");
-        std::string file_path = "/home/ubuntu/dev/vecihi/tofSLAM/data/A6_ToF_data_pack.json";
+        std::string file_path = "/home/ubuntu/dev/vecihi/tofSLAM/data/home.json";
         // Update this with the actual file path
         messages = read_json_file(file_path);
         publisher_ = this->create_publisher<std_msgs::msg::String>("tof", 10);
@@ -70,10 +71,10 @@ private:
         message.data = ex3.dump();
         double pitch = messages["pos"]["pitch"][count_];
         // RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
-        if (messages["pos"]["vz"][count_] < 5.0 && abs(pitch) < 1.0)
-        {
+        //if (messages["pos"]["vz"][count_] < 5.0 && abs(pitch) < 1.0)
+        //{
             publisher_->publish(message);
-        }
+        //}
         count_++;
     }
 
