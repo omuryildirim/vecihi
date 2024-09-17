@@ -172,7 +172,7 @@ __weak HAL_StatusTypeDef MX_USART2_UART_Init(UART_HandleTypeDef* huart)
   HAL_StatusTypeDef ret = HAL_OK;
 
   huart->Instance = USART2;
-  huart->Init.BaudRate = 460800;
+  huart->Init.BaudRate = 115200;
   huart->Init.WordLength = UART_WORDLENGTH_8B;
   huart->Init.StopBits = UART_STOPBITS_1;
   huart->Init.Parity = UART_PARITY_NONE;

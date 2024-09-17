@@ -126,10 +126,9 @@ int main(void)
   }
 
   // Start timer and put processor into an efficient low power mode
-  printf("CALIBRATED...\r\n");
-  if (HAL_TIM_Base_Start_IT(&htim11) != HAL_OK) {
-      Error_Handler();
-  }
+  //if (HAL_TIM_Base_Start_IT(&htim11) != HAL_OK) {
+  //    Error_Handler();
+  //}
   printf("Clock enabled...\r\n");
   // HAL_PWR_EnableSleepOnExit();
   // HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
@@ -140,8 +139,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while(1) {
     /* USER CODE END WHILE */
+
+  MX_TOF_Process();
     /* USER CODE BEGIN 3 */
-	  MX_TOF_Process();
   }
   /* USER CODE END 3 */
 }

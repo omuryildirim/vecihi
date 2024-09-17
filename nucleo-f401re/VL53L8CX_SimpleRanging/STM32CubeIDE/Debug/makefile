@@ -62,8 +62,8 @@ all: main-build
 main-build: VL53L8CX_SimpleRanging.elf secondary-outputs
 
 # Tool invocations
-VL53L8CX_SimpleRanging.elf VL53L8CX_SimpleRanging.map: $(OBJS) $(USER_OBJS) /Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/STM32CubeIDE/STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "VL53L8CX_SimpleRanging.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/STM32CubeIDE/STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="VL53L8CX_SimpleRanging.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+VL53L8CX_SimpleRanging.elf VL53L8CX_SimpleRanging.map: $(OBJS) $(USER_OBJS) D:\Projects\vecihi\nucleo-f401re\VL53L8CX_SimpleRanging\STM32CubeIDE\STM32F401RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "VL53L8CX_SimpleRanging.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Projects\vecihi\nucleo-f401re\VL53L8CX_SimpleRanging\STM32CubeIDE\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="VL53L8CX_SimpleRanging.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
