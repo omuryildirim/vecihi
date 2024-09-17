@@ -1,6 +1,0 @@
-/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo.c:81:9:BSP_GetVersion	1
-/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo.c:133:9:BSP_COM_DeInit	2
-/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo.c:170:26:MX_USART2_UART_Init	1
-/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo.c:95:9:BSP_COM_Init	2
-/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo.c:272:9:BSP_COM_SelectLogPort	2
-/Users/omuryildirim/Downloads/en.X-CUBE-TOF1/Projects/NUCLEO-F401RE/Examples/CUSTOM/VL53L8CX_SimpleRanging/Src/stm32f4xx_nucleo.c:318:5:__io_putchar	1

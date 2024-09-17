@@ -1,6 +1,0 @@
-C:/Users/Nick/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-TOF1/3.4.2/Drivers/BSP/Components/vl53l8cx/porting/platform.c:15:9:VL53L8CX_RdByte	1
-C:/Users/Nick/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-TOF1/3.4.2/Drivers/BSP/Components/vl53l8cx/porting/platform.c:23:9:VL53L8CX_WrByte	1
-C:/Users/Nick/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-TOF1/3.4.2/Drivers/BSP/Components/vl53l8cx/porting/platform.c:31:9:VL53L8CX_WrMulti	1
-C:/Users/Nick/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-TOF1/3.4.2/Drivers/BSP/Components/vl53l8cx/porting/platform.c:40:9:VL53L8CX_RdMulti	1
-C:/Users/Nick/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-TOF1/3.4.2/Drivers/BSP/Components/vl53l8cx/porting/platform.c:49:6:VL53L8CX_SwapBuffer	2
-C:/Users/Nick/STM32Cube/Repository/Packs/STMicroelectronics/X-CUBE-TOF1/3.4.2/Drivers/BSP/Components/vl53l8cx/porting/platform.c:68:9:VL53L8CX_WaitMs	2
