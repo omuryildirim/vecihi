@@ -122,7 +122,7 @@ int main(void)
 	  // Calibrate the IMU
 	  sprintf((char *)serialBuf, "CALIBRATING...\r\n");
 	  HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
-	  MPUXX50_CalibrateGyro(&imu, 5000);
+	  MPUXX50_CalibrateGyro(&imu, 2000);
   }
 
   // Start timer and put processor into an efficient low power mode
@@ -332,8 +332,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         attitude = MPUXX50_CalcAttitude(&imu);
 
         // Transmit attitude over UART
-        sprintf((char *)serialBuf, "%.1f,%.1f,%.1f,%.4f,%.4f,%.4f,%.4f\r\n", attitude.r, attitude.p, attitude.yaw, attitude.y, attitude.z, attitude.vy, attitude.vz);
-        HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
+        // sprintf((char *)serialBuf, "%.1f,%.1f,%.1f,%.4f,%.4f,%.4f,%.4f\r\n", attitude.r, attitude.p, attitude.yaw, attitude.y, attitude.z, attitude.vy, attitude.vz);
+        sprintf((char *)serialBuf, "%.4f,%.4f,%.4f\r\n", attitude.r, attitude.p, attitude.yaw);
+		HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
 
         HAL_SuspendTick();
     }
