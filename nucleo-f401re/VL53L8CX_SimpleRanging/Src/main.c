@@ -123,12 +123,13 @@ int main(void)
 	  sprintf((char *)serialBuf, "CALIBRATING...\r\n");
 	  HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
 	  MPUXX50_CalibrateGyro(&imu, 2000);
+	  printf("CALIBRATED...\r\n");
   }
 
   // Start timer and put processor into an efficient low power mode
-  //if (HAL_TIM_Base_Start_IT(&htim11) != HAL_OK) {
-  //    Error_Handler();
-  //}
+  if (HAL_TIM_Base_Start_IT(&htim11) != HAL_OK) {
+      Error_Handler();
+  }
   printf("Clock enabled...\r\n");
   // HAL_PWR_EnableSleepOnExit();
   // HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
@@ -244,7 +245,7 @@ static void MX_TIM11_Init(void)
   htim11.Instance = TIM11;
   htim11.Init.Prescaler = 8400-1;
   htim11.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim11.Init.Period = 40-1;
+  htim11.Init.Period = 200-1;
   htim11.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim11.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim11) != HAL_OK)
