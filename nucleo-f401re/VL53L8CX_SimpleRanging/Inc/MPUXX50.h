@@ -17,7 +17,7 @@
 
 // Defines
 #define WHO_AM_I_6050_ANS 0x68
-#define WHO_AM_I_9250_ANS 0x71
+#define WHO_AM_I_9250_ANS 0x70
 #define WHO_AM_I          0x75
 #define AD0_LOW           0x68
 #define AD0_HIGH          0x69
