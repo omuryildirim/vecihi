@@ -6,83 +6,64 @@
 #include <string>
 #include <chrono>
 #include <memory>
-#include <string> 
 
 using namespace std::chrono_literals;
 using json = nlohmann::json;
 
 class TofNode : public rclcpp::Node
 {
-private:
-    json read_json_file(const std::string& file_path)
-    {
-        std::ifstream file(file_path);
-        if (!file.is_open())
-        {
-            RCLCPP_ERROR(this->get_logger(), "Could not open file: %s", file_path.c_str());
-            return "";
-        }
-
-        // Parse the JSON file
-        try
-        {
-            std::ifstream f(file_path);
-            json data = json::parse(f);
-            RCLCPP_INFO(this->get_logger(), "Parsed the JSON!");
-            return data;
-        }
-        catch (json::parse_error& e)
-        {
-            RCLCPP_ERROR(this->get_logger(), "JSON parse error: %s", e.what());
-            return "";
-        }
-    }
-
 public:
     TofNode()
-        : Node("tofNode")
+        : Node("tof_node")
     {
-        RCLCPP_INFO(this->get_logger(), "Hello ROS 2");
-        std::string file_path = "/home/ubuntu/dev/vecihi/tofSLAM/data/home.json";
-        // Update this with the actual file path
-        messages = read_json_file(file_path);
+        RCLCPP_INFO(this->get_logger(), "Hello from ToF Node");
+        subscription_ = this->create_subscription<std_msgs::msg::String>(
+            "serial_data", 10, std::bind(&TofNode::topic_callback, this, std::placeholders::_1));
         publisher_ = this->create_publisher<std_msgs::msg::String>("tof", 10);
-        timer_ = this->create_wall_timer(
-            std::chrono::milliseconds(10),
-            std::bind(&TofNode::timer_callback, this)
-        );
-        count_ = 0;
     }
 
 private:
-    void timer_callback()
+    void topic_callback(const std_msgs::msg::String::SharedPtr msg) {
+        json data = json::parse(msg->data.c_str());
+        double x = 0; // data["x"];
+        double y = 0; // data["y"];
+        double z = 0; // data["z"];
+        double roll = data["roll"];
+        double pitch = data["pitch"];
+        double yaw = data["yaw"];
+        std::vector<float> tof;
+        for (auto &cell: data["tof"])
+            for (auto &pair: cell)
+                tof.push_back(pair[0]);
+        // calculate tof distances in x y z considering the position, roll and pitch
+        publish_message(x * 100.0, y * 100.0, z * 100.0, roll, pitch, yaw, tof);
+    }
+
+private:
+    void publish_message(double x, double y, double z, double roll, double pitch, double yaw, std::vector<float> tof)
     {
         auto message = std_msgs::msg::String();
-        RCLCPP_INFO(this->get_logger(), "Publishing message: %d", count_);
+        RCLCPP_INFO(this->get_logger(), "Publishing message");
         json ex3 = {
-            {"x", messages["pos"]["x"][count_]},
-            {"y", messages["pos"]["y"][count_]},
-            {"z", messages["pos"]["z"][count_]},
-            {"roll", messages["pos"]["roll"][count_]},
-            {"pitch", messages["pos"]["pitch"][count_]},
-            {"yaw", messages["pos"]["yaw"][count_]},
-            {"tof", messages["tof"]["distances"][count_]}
+            {"x", x},
+            {"y", y},
+            {"z", z},
+            {"roll", roll},
+            {"pitch", pitch},
+            {"yaw", yaw},
+            {"tof", tof}
         };
         message.data = ex3.dump();
-        double pitch = messages["pos"]["pitch"][count_];
         // RCLCPP_INFO(this->get_logger(), "Publishing: '%s'", message.data.c_str());
         //if (messages["pos"]["vz"][count_] < 5.0 && abs(pitch) < 1.0)
         //{
             publisher_->publish(message);
         //}
-        count_++;
     }
 
-    rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscription_;
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
     json messages;
-    // define int count_ to keep track of the number of messages published
-    int count_;
 };
 
 int main(int argc, char* argv[])
