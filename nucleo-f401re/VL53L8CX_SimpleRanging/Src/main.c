@@ -48,7 +48,7 @@ I2C_HandleTypeDef hi2c3;
 TIM_HandleTypeDef htim11;
 
 /* USER CODE BEGIN PV */
-uint8_t serialBuf[100];
+char serialBuf[100];
 Attitude attitude;
 /* USER CODE END PV */
 
@@ -334,7 +334,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
         // Transmit attitude over UART
         // sprintf((char *)serialBuf, "%.1f,%.1f,%.1f,%.4f,%.4f,%.4f,%.4f\r\n", attitude.r, attitude.p, attitude.yaw, attitude.y, attitude.z, attitude.vy, attitude.vz);
-        sprintf((char *)serialBuf, "%.4f,%.4f,%.4f\r\n", attitude.r, attitude.p, attitude.yaw);
+        sprintf((char *)serialBuf, "\"roll\":%.4f,\"pitch\":%.4f,\"yaw\":%.4f", attitude.r, attitude.p, attitude.yaw);
 		// HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
 
         HAL_SuspendTick();

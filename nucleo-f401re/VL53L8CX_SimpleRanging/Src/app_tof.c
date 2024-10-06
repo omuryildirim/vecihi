@@ -215,7 +215,7 @@ static void MX_VL53L8CX_SimpleRanging_Process(void)
 
     if (status == BSP_ERROR_NONE)
     {
-      HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
+      // HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
       print_result(&Result);
     }
 
@@ -292,10 +292,15 @@ static void print_result(RANGING_SENSOR_Result_t *Result)
 		  }
 		}
 	  }
-	  sprintf((char *)log_ext, "%s%s", log_ext, "],");
+	  if (j < (Result->NumberOfZones - zones_per_line)) {
+		  sprintf((char *)log_ext, "%s%s", log_ext, "],");
+	  } else {
+		  sprintf((char *)log_ext, "%s%s", log_ext, "]");
+	  }
   }
-  sprintf((char *)log_ext, "%s%s", log_ext, "]\r\n");
-  HAL_UART_Transmit(&huart2, log_ext, strlen((char *)log_ext), HAL_MAX_DELAY);
+  char result[1200];
+  sprintf(result, "{%s,\"tof\":%s]}\r\n", serialBuf, log_ext);
+  HAL_UART_Transmit(&huart2, result, strlen(result), HAL_MAX_DELAY);
 
   /*
 

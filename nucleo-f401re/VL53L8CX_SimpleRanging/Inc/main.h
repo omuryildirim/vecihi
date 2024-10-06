@@ -32,7 +32,7 @@ extern "C" {
 #include "stm32f4xx_nucleo.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-extern uint8_t serialBuf[100];   // Buffer for serial data
+extern char serialBuf[100];   // Buffer for serial data
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
