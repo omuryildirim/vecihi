@@ -41,6 +41,16 @@ Note: You can learn the ip address of the virtual machine with the command:
 multipass info tof-vm
 ```
 
+### Install dependencies
+Install serial library:
+
+```bash
+sudo apt install libboost-all-dev
+``` 
+
+Note: On windows follow [instructions](https://stackoverflow.com/a/70948703) to attach com port to WSL2.
+You can list the ports in WSL2 with `ll /dev/tty*` command.
+
 ### Build the project
 
 After installation run build command:
@@ -57,6 +67,7 @@ source install/local_setup.sh
 
 Run the nodes:
 ```bash
+ros2 run tofSlam serial_listener
 ros2 run tofSlam slamNode
 ros2 run tofSlam tofNode
 ```

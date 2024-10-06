@@ -17,7 +17,7 @@ find_package(PCL REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(OpenCV REQUIRED QUIET)
 find_package(tf2 REQUIRED QUIET)
-find_library(SERIALPORT_LIB serialport REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system)
 
 include_directories(include ${PCL_INCLUDE_DIRS})
 
@@ -28,7 +28,7 @@ add_executable(serial_listener src/serial_listener/serial_listener.cpp)
 ament_target_dependencies(tofNode rclcpp std_msgs)
 ament_target_dependencies(slamNode rclcpp std_msgs sensor_msgs nav_msgs geometry_msgs PCL pcl_conversions tf2 tf2_geometry_msgs)
 ament_target_dependencies(serial_listener rclcpp std_msgs)
-target_link_libraries(serial_listener ${SERIALPORT_LIB})
+target_link_libraries(serial_listener Boost::system)
 
 install(TARGETS
         tofNode
