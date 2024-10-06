@@ -215,6 +215,7 @@ static void MX_VL53L8CX_SimpleRanging_Process(void)
 
     if (status == BSP_ERROR_NONE)
     {
+      HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
       print_result(&Result);
     }
 
