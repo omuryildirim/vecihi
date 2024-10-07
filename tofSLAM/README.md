@@ -42,14 +42,21 @@ multipass info tof-vm
 ```
 
 ### Install dependencies
-Install serial library:
+#### Install serial library:
 
 ```bash
 sudo apt install libboost-all-dev
 ``` 
 
-Note: On windows follow [instructions](https://stackoverflow.com/a/70948703) to attach com port to WSL2.
-You can list the ports in WSL2 with `ll /dev/tty*` command.
+> [!TIP]
+> On windows follow [instructions](https://stackoverflow.com/a/70948703) to attach com port to WSL2.
+You can list the ports in WSL2 with `ll /dev/tty*` command.**
+
+#### Install robot localization package:
+
+```bash
+sudo apt install ros-iron-robot-localization
+```
 
 ### Build the project
 
