@@ -1,0 +1,30 @@
+ekf_filter_node:
+  ros__parameters:
+    frequency: 30  # Filter update rate
+    sensor_timeout: 0.1  # Maximum time to wait for sensor data
+    two_d_mode: true  # If true, ignores z-axis data
+    transform_time_offset: 0.0
+    publish_tf: true  # Publish TF between `odom` and `base_link`
+
+    # IMU configuration (replace imu/data with your actual topic name)
+    imu0: imu/data
+    imu0_config: [false, false, false,  # x, y, z position (disabled in 2D mode)
+                  true, true, true,    # roll, pitch, yaw orientation
+                  true, true, true,    # angular velocity
+                  true, true, false]   # linear acceleration (ignore z in 2D)
+
+    imu0_differential: false  # IMU data is not differential (provides absolute data)
+    imu0_relative: true  # Data is relative (relative to the sensor's initial pose)
+    imu0_queue_size: 10  # Message queue size for IMU data
+
+    # Covariance matrices (tune these values based on your IMU's performance)
+    process_noise_covariance: [0.05, 0, 0, 0, 0, 0,
+                               0, 0.05, 0, 0, 0, 0,
+                               0, 0, 0.05, 0, 0, 0,
+                               0, 0, 0, 0.01, 0, 0,
+                               0, 0, 0, 0, 0.01, 0,
+                               0, 0, 0, 0, 0, 0.01]
+
+    imu0_linear_acceleration_noise: [0.1, 0.1, 0.1]
+    imu0_angular_velocity_noise: [0.01, 0.01, 0.01]
+    imu0_orientation_noise: [0.02, 0.02, 0.02]
