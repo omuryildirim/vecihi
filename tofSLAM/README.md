@@ -75,6 +75,7 @@ source install/local_setup.sh
 Run the nodes:
 ```bash
 ros2 run tofSlam serial_listener
+ros2 run robot_localization ekf_node --ros-args --params-file ./config/ekf.yaml
 ros2 run tofSlam slamNode
 ros2 run tofSlam tofNode
 ```

@@ -17,7 +17,10 @@ find_package(PCL REQUIRED)
 find_package(pcl_conversions REQUIRED)
 find_package(OpenCV REQUIRED QUIET)
 find_package(tf2 REQUIRED QUIET)
+# serial
 find_package(Boost REQUIRED COMPONENTS system)
+# robot localization
+find_package(robot_localization REQUIRED)
 
 include_directories(include ${PCL_INCLUDE_DIRS})
 
