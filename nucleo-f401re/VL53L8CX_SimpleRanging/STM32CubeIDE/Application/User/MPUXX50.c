@@ -14,12 +14,12 @@ uint8_t MPUXX50_Begin(MPUXX50 *mpuxx50) {
     mpuxx50->attitude.r = 0;
     mpuxx50->attitude.p = 0;
     mpuxx50->attitude.yaw = 0;
-    mpuxx50->attitude.x = 0;
-    mpuxx50->attitude.vx = 0;
-    mpuxx50->attitude.y = 0;
-    mpuxx50->attitude.vy = 0;
-    mpuxx50->attitude.z = 0;
-    mpuxx50->attitude.vz = 0;
+    mpuxx50->attitude.ax = 0;
+    mpuxx50->attitude.ay = 0;
+    mpuxx50->attitude.az = 0;
+    mpuxx50->attitude.gx = 0;
+    mpuxx50->attitude.gy = 0;
+    mpuxx50->attitude.gz = 0;
 
     // Confirm device
     HAL_I2C_Mem_Read(mpuxx50->pI2Cx, mpuxx50->addr, WHO_AM_I, 1, &check, 1, I2C_TIMOUT_MS);
@@ -194,19 +194,14 @@ Attitude MPUXX50_CalcAttitude(MPUXX50 *mpuxx50) {
     mpuxx50->attitude.p = mpuxx50->tau * (mpuxx50->attitude.p - sensorData.gx * mpuxx50->dt) + (1 - mpuxx50->tau) * accelPitch;
     mpuxx50->attitude.yaw += (sensorData.gz * mpuxx50->dt);
 
-    // Update the attitude structure with velocity and position
-    if (sensorData.gy > 0.15) {
-        mpuxx50->attitude.vy += sensorData.gy * mpuxx50->dt;
-        mpuxx50->attitude.y += mpuxx50->attitude.vy * mpuxx50->dt;
-    }
+    mpuxx50->attitude.ax = sensorData.ax;
+    mpuxx50->attitude.ay = sensorData.ay;
+    mpuxx50->attitude.az = sensorData.az;
 
-    if (sensorData.gz > 0.15) {
-        mpuxx50->attitude.vz += sensorData.gz * mpuxx50->dt;
-        mpuxx50->attitude.z += mpuxx50->attitude.vz * mpuxx50->dt;
+    mpuxx50->attitude.gz = sensorData.gx;
+    mpuxx50->attitude.gy = sensorData.gy;
+    mpuxx50->attitude.gz = sensorData.gz;
 
-    }
-    mpuxx50->attitude.vx += sensorData.gx * mpuxx50->dt;
-    mpuxx50->attitude.x += mpuxx50->attitude.vx * mpuxx50->dt;
 
     return mpuxx50->attitude;
 }

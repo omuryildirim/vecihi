@@ -334,7 +334,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
         // Transmit attitude over UART
         // sprintf((char *)serialBuf, "%.1f,%.1f,%.1f,%.4f,%.4f,%.4f,%.4f\r\n", attitude.r, attitude.p, attitude.yaw, attitude.y, attitude.z, attitude.vy, attitude.vz);
-        sprintf((char *)serialBuf, "\"roll\":%.4f,\"pitch\":%.4f,\"yaw\":%.4f", attitude.r, attitude.p, attitude.yaw);
+        sprintf((char *)serialBuf, "\"roll\":%.4f,\"pitch\":%.4f,\"yaw\":%.4f,\"ax\":%.4f,\"ay\":%.4f,\"az\":%.4f,\"gx\":%.4f,\"gy\":%.4f,\"gz\":%.4f", attitude.r, attitude.p, attitude.yaw, attitude.ax, attitude.ay, attitude.az, attitude.gx, attitude.gy, attitude.gz);
 		// HAL_UART_Transmit(&huart2, serialBuf, strlen((char *)serialBuf), HAL_MAX_DELAY);
 
         HAL_SuspendTick();

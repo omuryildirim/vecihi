@@ -41,7 +41,7 @@ typedef struct {
 } GyroCal;
 
 typedef struct {
-    float r, p, yaw, vx, vy, vz, x, y, z;
+    float r, p, yaw, ax, ay, az, gx, gy, gz;
 } Attitude;
 
 // Full scale ranges
