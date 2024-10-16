@@ -27,7 +27,7 @@ public:
         imu_publisher_ = this->create_publisher<sensor_msgs::msg::Imu>("/imu/data", 10);
 
         // Create a timer to periodically read from the serial port
-        timer_ = this->create_wall_timer(100ms, std::bind(&SerialListener::read_serial_data, this));
+        timer_ = this->create_wall_timer(10ms, std::bind(&SerialListener::read_serial_data, this));
     }
 
 private:

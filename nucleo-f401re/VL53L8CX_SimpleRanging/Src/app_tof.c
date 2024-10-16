@@ -298,7 +298,7 @@ static void print_result(RANGING_SENSOR_Result_t *Result)
 		  sprintf((char *)log_ext, "%s%s", log_ext, "]");
 	  }
   }
-  char result[1200];
+  char result[1200] = "";
   sprintf(result, "{%s,\"tof\":%s]}\r\n", serialBuf, log_ext);
   HAL_UART_Transmit(&huart2, result, strlen(result), HAL_MAX_DELAY);
 
