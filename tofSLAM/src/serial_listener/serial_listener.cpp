@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 #include <iostream>
 #include <string>
-#include <sensor_msgs/sensor_msgs/msg/detail/imu__struct.hpp>
+#include <sensor_msgs/sensor_msgs/msg/imu.hpp>
 #include "../nlohmann/json.hpp"
 #include <tf2/tf2/LinearMath/Quaternion.h>
 
@@ -46,6 +46,8 @@ private:
                 data += c;
             }
 
+            RCLCPP_INFO(this->get_logger(), "Received: '%s'", data.c_str());
+
             // Process the data
             process_serial_data(data);
 
@@ -53,8 +55,6 @@ private:
             // std_msgs::msg::String msg;
             // msg.data = data;
             // publisher_->publish(msg);
-
-            RCLCPP_INFO(this->get_logger(), "Received: '%s'", data.c_str());
         }
         else
         {
@@ -68,13 +68,13 @@ private:
 
         json j = json::parse(data);
 
-        std::make_shared<sensor_msgs::msg::Imu> imu_msg = get_imu_message_from_serial_data(j, now);
+        auto imu_msg = get_imu_message_from_serial_data(j, now);
         std::vector<float> tof = get_tof_data_from_serial_data(j);
-
-        imu_publisher_->publish(imu_msg);
+        imu_publisher_->publish(std::move(imu_msg));
     }
 
-    static std::make_shared<sensor_msgs::msg::Imu> get_imu_message_from_serial_data(const json &data, const rclcpp::Time &now) {
+    static std::unique_ptr<sensor_msgs::msg::Imu_<std::allocator<void>>> get_imu_message_from_serial_data(
+        const json &data, const rclcpp::Time &now) {
         double roll = data["roll"];
         double pitch = data["pitch"];
         double yaw = data["yaw"];
@@ -87,7 +87,7 @@ private:
         double gyro_y = data["gy"];
         double gyro_z = data["gz"];
 
-        auto imu_msg = std::make_shared<sensor_msgs::msg::Imu>();
+        auto imu_msg = std::make_unique<sensor_msgs::msg::Imu>();
         imu_msg->header.stamp = now;
         imu_msg->header.frame_id = "imu_frame";
 
