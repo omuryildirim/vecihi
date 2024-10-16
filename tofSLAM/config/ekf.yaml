@@ -29,3 +29,8 @@ ekf_filter_node:
     imu0_linear_acceleration_noise: [0.1, 0.1, 0.1]
     imu0_angular_velocity_noise: [0.01, 0.01, 0.01]
     imu0_orientation_noise: [0.02, 0.02, 0.02]
+    # console output level
+    debug: true
+    # If you're having trouble, try setting this to true, and then echo the /diagnostics_agg topic to see if the node is
+    # unhappy with any settings or data.
+    print_diagnostics: true
