@@ -1,18 +1,23 @@
 ekf_filter_node:
   ros__parameters:
-    frequency: 30.0  # Filter update rate
+    frequency: 10.0  # Filter update rate
     sensor_timeout: 0.1  # Maximum time to wait for sensor data
-    two_d_mode: true  # If true, ignores z-axis data
+    two_d_mode: false  # If true, ignores z-axis data
     transform_time_offset: 0.0
     publish_tf: true  # Publish TF between `odom` and `base_link`
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom
 
     # IMU configuration (replace imu/data with your actual topic name)
     imu0: /imu/data
-    imu0_config: [false, false, false, # Orientation
+    imu0_frame: imu_frame  # Matches the frame_id in the IMU data
+    imu0_config: [true,  true,  true, # Orientation
                   true,  true,  true, # Angular velocity
-                  false, false, false, # Linear acceleration
-                  true,  true,  true, # Linear acceleration (ignore z in 2D)
-                  true,  true,  true] # Angular velocity (ignore z in 2D)
+                  true,  true,  true, # Linear acceleration
+                  true,  true,  true] # Linear acceleration (ignore z in 2D)
+                  # true,  true,  true # Angular velocity (ignore z in 2D)
 
     imu0_differential: false  # IMU data is not differential (provides absolute data)
     imu0_relative: true  # Data is relative (relative to the sensor's initial pose)

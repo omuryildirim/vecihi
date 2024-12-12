@@ -110,9 +110,6 @@ private:
         imu_msg->orientation.z = q.z();
         imu_msg->orientation.w = q.w();
 
-        imu_msg->orientation.x = roll;
-        imu_msg->orientation.y = pitch;
-        imu_msg->orientation.z = yaw;
         return imu_msg;
     }
 
