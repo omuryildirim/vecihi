@@ -28,15 +28,18 @@ include_directories(include ${PCL_INCLUDE_DIRS})
 add_executable(tofNode src/tof/tofNode.cpp)
 add_executable(slamNode src/slam/slam.cpp)
 add_executable(serial_listener src/serial_listener/serial_listener.cpp)
+add_executable(test_imu_publisher src/test_imu_publisher/test_imu_publisher.cpp)
 ament_target_dependencies(tofNode rclcpp std_msgs)
 ament_target_dependencies(slamNode rclcpp std_msgs sensor_msgs nav_msgs geometry_msgs PCL pcl_conversions tf2 tf2_geometry_msgs)
 ament_target_dependencies(serial_listener rclcpp std_msgs sensor_msgs tf2)
+ament_target_dependencies(test_imu_publisher rclcpp std_msgs sensor_msgs tf2)
 target_link_libraries(serial_listener Boost::system)
 
 install(TARGETS
         tofNode
         slamNode
         serial_listener
+        test_imu_publisher
         DESTINATION lib/${PROJECT_NAME})
 
 # uncomment the following section in order to fill in
